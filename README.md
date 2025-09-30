@@ -1,7 +1,12 @@
 # NilvanApp
 
-NilvanApp é um aplicativo desenvolvido para a Nilvan Confecções, com o objetivo de otimizar e organizar o processo de produção das bolsas térmicas.
-O projeto foi desenvolvido 100% por mim, utilizando JavaScript, React Native e Expo Go, garantindo praticidade no desenvolvimento, testes e distribuição.
+**NilvanApp** é um aplicativo desenvolvido especialmente para a [**Nilvan Confecções**](https://nilvan.com.br/product-category/produtos/bolsas-termicas/?srsltid=AfmBOornlOyEgs7LEPj2z0DZHYfkW4asZX8e_rBCJWuU7kx6yV8sXlau), com o propósito de **modernizar, organizar e otimizar o processo de produção das bolsas térmicas**.  
+
+A solução foi pensada para facilitar o acompanhamento das etapas produtivas, reduzir falhas manuais e aumentar a eficiência operacional da empresa.
+
+O projeto foi desenvolvido **100% por mim**, utilizando **JavaScript**, **React Native** e **Expo Go**, garantindo agilidade no desenvolvimento, praticidade nos testes e facilidade na distribuição.  
+ 
+
 
 ## Tecnologias Utilizadas
 <div style="display: inline_block">
