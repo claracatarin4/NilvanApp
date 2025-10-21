@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { StatusBar, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import { Header } from '../components/Header';
 
 
@@ -30,9 +30,8 @@ export default function DashboardScreen() {
         </View>
 
         {/* Add Product Button */}
-        <TouchableOpacity style={styles.addButton}>
-          <Text style={styles.addButtonText}>+ Adicionar Produto</Text>
-        </TouchableOpacity>
+        <ActionButton></ActionButton>
+        
       </View>
 
       {/* Bottom Navigation */}
