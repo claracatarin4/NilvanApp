@@ -1,57 +1,47 @@
-import { StyleSheet, Text , TouchableOpacity, Image, View} from "react-native";
-import { ScanBarcode } from 'lucide-react-native';
-
-export const Header = () => {
+export default function ProfileHeader({ name, role, avatarUrl }) {
+  
   return (
-   <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <Image
-            source={{ uri: 'https://via.placeholder.com/50' }}
-            style={styles.profileImage}
-          />
-          <View style={styles.userInfo}>
-            <Text style={styles.userName}>Ivan Santana Jr.</Text>
-            <Text style={styles.userRole}>Diretor</Text>
-          </View>
-          <TouchableOpacity style={styles.settingsButton}>
-             <ScanBarcode size={24} color="#fff" />
-          </TouchableOpacity>
-        </View>
-      </View>
-  );
-};
+    <div className="bg-[#1a2b5c] text-white p-4">
 
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#0F2553',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profileImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#fff',
-  },
-  userInfo: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  userName: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  userRole: {
-    color: '#fff',
-    fontSize: 14,
-    marginTop: 2,
-  },
-  settingsButton: {
-    padding: 8,
-  },
-})
+      <div className="flex justify-between items-center mb-4 text-sm">
+        <span>9:41</span>
+        <div className="flex gap-1 items-center">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+          </svg>
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M17.778 8.222c-4.296-4.296-11.26-4.296-15.556 0A1 1 0 01.808 6.808c5.076-5.077 13.308-5.077 18.384 0a1 1 0 01-1.414 1.414zM14.95 11.05a7 7 0 00-9.9 0 1 1 0 01-1.414-1.414 9 9 0 0112.728 0 1 1 0 01-1.414 1.414zM12.12 13.88a3 3 0 00-4.242 0 1 1 0 01-1.415-1.415 5 5 0 017.072 0 1 1 0 01-1.415 1.415zM9 16a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+            <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
+          </svg>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <img
+            src={avatarUrl || "/placeholder.svg"}
+            alt={name}
+            className="w-12 h-12 rounded-full border-2 border-white"
+          />
+          <div>
+            <h1 className="font-semibold text-lg">{name}</h1>
+            <p className="text-sm text-gray-300">{role}</p>
+          </div>
+        </div>
+
+        <button className="p-2">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  )
+}

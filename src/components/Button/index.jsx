@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text } from "react-native"
 
-export const ActionButton = ({ active, onPress, display }) => {
+export const Button = ({ active, onPress, display }) => {
     return (
         <Pressable
             style={active ? styles.addButton : null}
