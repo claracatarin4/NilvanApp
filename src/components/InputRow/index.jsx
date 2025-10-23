@@ -1,8 +1,10 @@
-export default function InputRow({ children }) {
-  return <div className="flex gap-3">{children}</div>
+import { View, StyleSheet } from "react-native"
+
+export const InputRow = ({ children }) => {
+  return <View style={styles.container}>{children}</View>
 }
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     gap: 12,

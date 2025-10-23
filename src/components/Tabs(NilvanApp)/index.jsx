@@ -1,23 +1,24 @@
-export default function TabBar({ tabs, activeTab, onTabChange }) {
+import { View, Text, Pressable, StyleSheet } from "react-native"
+
+export const TabBar = ({ tabs, activeTab, onTabChange }) => {
   return (
-    <div className="flex bg-[#1a3a5c] px-4">
+    <View style={styles.container}>
       {tabs.map((tab, index) => {
         const tabKey = tab.toLowerCase()
         const isActive = activeTab === tabKey
 
         return (
-          <button key={index} className="relative flex-1 py-3 text-center" onClick={() => onTabChange(tabKey)}>
-            <span className={`text-sm text-white ${isActive ? "opacity-100 font-semibold" : "opacity-70"}`}>{tab}</span>
-            {isActive && <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#ffd700]" />}
-          </button>
+          <Pressable key={index} style={styles.tab} onPress={() => onTabChange(tabKey)}>
+            <Text style={[styles.tabText, isActive && styles.tabTextActive]}>{tab}</Text>
+            {isActive && <View style={styles.activeIndicator} />}
+          </Pressable>
         )
       })}
-    </div>
+    </View>
   )
 }
 
-export const styles = StyleSheet.create({
-  
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     backgroundColor: "#1a3a5c",
@@ -29,19 +30,16 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
   },
-  activeTab: {
-    // Active state handled by indicator
-  },
   tabText: {
     fontSize: 14,
-    color: "#ffffff",
+    color: "#FFFFFF",
     opacity: 0.7,
   },
-  activeTabText: {
+  tabTextActive: {
     opacity: 1,
     fontWeight: "600",
   },
-  indicator: {
+  activeIndicator: {
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -50,4 +48,3 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ffd700",
   },
 })
-

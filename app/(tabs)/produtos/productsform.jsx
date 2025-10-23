@@ -35,6 +35,7 @@ export default function CadastrarProduto() {
   }
 
   return (
+
     <SafeAreaView style={styles.container}>
 
       {/* Header */}
@@ -153,6 +154,7 @@ export default function CadastrarProduto() {
       </View>
     </SafeAreaView>
   )
+  
 }
 
 const styles = StyleSheet.create({

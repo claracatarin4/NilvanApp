@@ -1,6 +1,6 @@
-import Input from "../Input/index"
-import InputRow from "../InputRow/index"
-import BarcodeInput from "../BarCodeInput/index"
+import Input from "../Input"
+import InputRow from "../InputRow"
+import BarcodeInput from "../../components/BarCodeInput"
 import TextArea from "../TextArea"
 
 export default function ProductForm({ formData, onUpdateField }) {

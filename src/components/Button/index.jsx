@@ -1,32 +1,33 @@
 import { Pressable, StyleSheet, Text } from "react-native"
 
-export const Button = ({ active, onPress, display }) => {
-    return (
-        <Pressable
-            style={active ? styles.addButton : null}
-            onPress={onPress}
-        >
-            <Text style={styles.addButtonText}>
-                {display}
-            </Text>
-        </Pressable>
-    )
+export const Button = ({ title, onPress, variant = "primary" }) => {
+  return (
+    <Pressable style={variant === "primary" ? styles.buttonPrimary : styles.buttonSecondary} onPress={onPress}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </Pressable>
+  )
 }
 
 const styles = StyleSheet.create({
-
-  addButton: {
-    backgroundColor: '#0F2553',
-    padding: 18,
+  buttonPrimary: {
+    backgroundColor: "#1a3a5c",
     borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 'auto',
-    marginBottom: 20,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  
-  addButtonText: {
-    color: '#fff',
+  buttonSecondary: {
+    backgroundColor: "#9ca3af",
+    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
+    color: "#FFFFFF",
   },
 })
