@@ -1,15 +1,18 @@
 import { Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
-
+// const Stack = createStackNavigator();
 export default function RootLayout() {
   return (
-    <>
-      <Stack screenOptions={{ headerShown: false }} initialRouteName="index">
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(public)" />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
-      <StatusBar style="auto" />
-    </>
+   <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="auth/Login/index"
+    >
+      <Stack.Screen name="auth/Login/index"/>
+      {/* <Stack.Screen name="Home"/>
+      <Stack.Screen name="ProductList"/>
+      <Stack.Screen name="AddProduct"/> */}
+    </Stack.Navigator>
   )
 }
