@@ -1,0 +1,19 @@
+// O 'as const' informa ao TypeScript para inferir os tipos literais exatos para cada valor.
+export const COLORS = {
+    primary: '#1E2B5C',
+    secondary: '#E8344E',
+    white: '#FFFFFF',
+    lightGray: '#F5F5F5',
+    mediumGray: '#E0E0E0',
+    darkGray: '#666666',
+    text: '#333333',
+    textLight: '#999999',
+    border: '#DDDDDD',
+    background: '#FAFAFA',
+} as const;
+
+// (Opcional, mas útil) Você pode exportar o tipo, se precisar dele em outro lugar.
+export type Colors = typeof COLORS;
+
+// (Opcional, mas útil) Você pode exportar um tipo de união para as chaves.
+export type ColorKey = keyof typeof COLORS;
