@@ -8,9 +8,10 @@ import {
     StyleProp,
     ViewStyle,
     TextStyle,
+    TouchableOpacity, 
 } from 'react-native';
+import { useRouter } from 'expo-router'; 
 import { Search, Bell } from 'lucide-react-native'; 
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Header } from '../../shared/components/Header';
 import { TabButton } from '../../shared/components/TabButton';
 import { ProductCard } from '../../shared/components/ProductCard';
@@ -34,26 +35,18 @@ interface Product {
     imageUrl: string;
 }
 
-type MainStackParamList = {
-    ProductList: undefined; 
-    AddProduct: { product: Product }; 
-    [key: string]: any; 
-};
-
-export type ProductListScreenProps = NativeStackScreenProps<MainStackParamList, 'ProductList'>;
 
 type MainTab = MAIN_TABS.PRODUTOS | MAIN_TABS.ESTOQUE | MAIN_TABS.CATEGORIAS;
-
 
 type IconComponentType = FC<{ color: string; size: number; style?: StyleProp<ViewStyle> }>;
 
 
-export const ProductListScreen = ({ navigation }: ProductListScreenProps): JSX.Element => {
+export const ProductListScreen = (): JSX.Element => {
 
+    const router = useRouter(); 
     
     const [activeMainTab, setActiveMainTab] = useState<MainTab>(MAIN_TABS.PRODUTOS);
-    
-    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [searchQuery] = useState<string>('');
 
     const mockProducts: Product[] = [
         
@@ -81,7 +74,15 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps): JSX.E
     ];
 
     const handleProductPress = (product: Product): void => {
-        navigation.navigate('AddProduct', { product }); 
+        router.push({
+            pathname: '/addprodutos',
+            params: { productId: product.id },
+        }); 
+    };
+
+    const handleSearchPress = (): void => {
+
+        // router.push('/pesquisa');
     };
 
     return (
@@ -113,16 +114,21 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps): JSX.E
                 />
             </View>
 
-            <View style={styles.searchContainer}>
+            <TouchableOpacity 
+                style={styles.searchContainer as StyleProp<ViewStyle>}
+                onPress={handleSearchPress}
+                activeOpacity={0.8}
+            >
                 <Search size={20} color={COLORS.darkGray} style={styles.searchIcon} />
+                
                 <TextInput
                     style={styles.searchInput as StyleProp<TextStyle>}
                     placeholder="Produto, lote ou Código"
                     placeholderTextColor={COLORS.textLight}
                     value={searchQuery}
-                    onChangeText={setSearchQuery}
+                    editable={false} 
                 />
-            </View>
+            </TouchableOpacity>
 
             <FlatList
                 data={mockProducts}
@@ -151,13 +157,14 @@ const styles = StyleSheet.create({
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.white, 
         marginHorizontal: SPACING.md,
         marginVertical: SPACING.md,
         paddingHorizontal: SPACING.md,
-        borderRadius: 8,
-        borderWidth: 1,
+        paddingVertical: 5, 
+        borderRadius: 8, 
         borderColor: COLORS.border,
+        
     } as ViewStyle,
     searchIcon: {
         marginRight: SPACING.sm,

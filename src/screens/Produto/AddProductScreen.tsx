@@ -20,7 +20,6 @@ import { COLORS } from '../../shared/constants/colors';
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
 
-// Enum e Interfaces
 export enum TAB_TYPES {
     PRODUTO = 'Produto',
     ESTOQUE = 'Estoque',
@@ -235,9 +234,8 @@ export default function AddProductScreen(): JSX.Element {
             </View>
         </View>
     );
-} // Fim do export default function
+}
 
-// Estilos
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -292,6 +290,11 @@ const styles = StyleSheet.create({
     } as ViewStyle,
     variantsSection: {
         marginTop: SPACING.md,
+        borderTopWidth:1,
+        borderBottomWidth:1,
+        paddingBottom:16,
+        paddingTop:16,
+        borderColor:'#D3D3D3',
     } as ViewStyle,
     variantsHeader: {
         flexDirection: 'row',
@@ -301,7 +304,8 @@ const styles = StyleSheet.create({
     variantsTitle: {
         fontSize: FONT_SIZES.large,
         fontWeight: '600',
-        color: COLORS.text,
+        color: COLORS.primary,
+        
     } as TextStyle,
     addVariantButton: {
         fontSize: 28,
@@ -343,9 +347,12 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         padding: SPACING.md,
         borderTopWidth: 1,
+        height:100,
         borderTopColor: COLORS.border,
     } as ViewStyle,
     saveButton: {
         width: '100%',
+        backgroundColor: COLORS.primary,
+        paddingBottom:20
     } as ViewStyle,
 });

@@ -38,7 +38,7 @@ export const HomeScreen = (): JSX.Element => {
     const [activeTab, setActiveTab] = useState<TabId>('home');
 
     const handleAddProduct = (): void => {
-    router.push('/addprodutos/index'); 
+    router.push('/addprodutos'); 
 };
 
     const stats: StatItem[] = [
@@ -66,9 +66,8 @@ export const HomeScreen = (): JSX.Element => {
                         <Text style={styles.statValue}>{stat.value}</Text>
                     </View>
                 ))}
-            </ScrollView>
 
-            <View style={styles.bottomSection}>
+            <View>
                 
                 <CustomButton
                     title="Adicionar Produto"
@@ -79,6 +78,9 @@ export const HomeScreen = (): JSX.Element => {
                 />
                 
             </View>
+            </ScrollView>
+
+        
         </View>
     );
 };
@@ -114,12 +116,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: COLORS.text,
     } as TextStyle,
-    bottomSection: {
-        backgroundColor: COLORS.white,
-    } as ViewStyle,
     addButton: {
-        marginHorizontal: SPACING.md,
-        marginVertical: SPACING.md,
+        width:360,
     } as ViewStyle,
     plusIcon: {
         fontSize: 20,

@@ -3,11 +3,12 @@ export interface ProductVariant {
 }
 
 export interface Product {
+  price: any;
   id: string | null;
   name: string;
   category: string;
-  sellingPrice: string; 
-  costPrice: string;    
+  sellingPrice: number; 
+  costPrice: number;    
   internalCode: string;
   barcode: string;
   description: string;
