@@ -13,26 +13,17 @@ import {
     Image
 } from 'react-native';
 import { User, Lock } from 'lucide-react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack'; 
-
+import { useRouter } from 'expo-router'; 
 import { CustomInput } from '../../shared/components/CustomInput';
 import { CustomButton } from '../../shared/components/CustomButton';
-import { COLORS } from '../../shared/constants/colors'; 
-import { SPACING } from '../../shared/constants/spacing'; 
-import { FONT_SIZES } from '../../shared/constants/fonts';
+import { COLORS, FONT_SIZES, SPACING } from '../../shared/constants';
 
 type IconComponentType = FC<{ color: string; size: number; style?: StyleProp<ViewStyle> }>; 
 
-type AuthStackParamList = {
-    Login: undefined; 
-    Home: undefined; 
-    [key: string]: any; 
-};
 
-export type LoginScreenProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
-
-
-export const LoginScreen = ({ navigation }: LoginScreenProps): JSX.Element => {
+export const LoginScreen = (): JSX.Element => { 
+    
+    const router = useRouter(); 
 
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -40,8 +31,8 @@ export const LoginScreen = ({ navigation }: LoginScreenProps): JSX.Element => {
 
 
     const handleLogin = (): void => {
-
-        navigation.navigate('Home'); 
+     
+        router.replace('/(tabs)/home'); 
     };
 
 
@@ -58,20 +49,18 @@ export const LoginScreen = ({ navigation }: LoginScreenProps): JSX.Element => {
                 contentContainerStyle={styles.scrollContent as StyleProp<ViewStyle>}
                 showsVerticalScrollIndicator={false}
             >
-
-               <View style={styles.logoContainer}>
-                <View style={styles.logoBox}>
-                    <Image 
-                        source={NillvanLogo}
-                        style={styles.logoImage} 
-                        resizeMode="contain" 
-                    />
+                <View style={styles.logoContainer}>
+                    <View style={styles.logoBox}>
+                        <Image 
+                            source={NillvanLogo}
+                            style={styles.logoImage} 
+                            resizeMode="contain" 
+                        />
+                    </View>
                 </View>
-            </View>
 
                 <View style={styles.formContainer}>
                     <CustomInput
-                        
                         icon={User as IconComponentType} 
                         placeholder="Nome de Usuário"
                         value={username}
@@ -80,7 +69,6 @@ export const LoginScreen = ({ navigation }: LoginScreenProps): JSX.Element => {
                     />
 
                     <CustomInput
-
                         icon={Lock as IconComponentType}
                         placeholder="Senha"
                         value={password}

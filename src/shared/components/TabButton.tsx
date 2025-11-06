@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     tabTextActive: {
         fontWeight: '600',
         opacity: 1,
+        color: '#FFD700'
     } as TextStyle,
     activeIndicator: {
         position: 'absolute',

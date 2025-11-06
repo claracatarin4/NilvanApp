@@ -1,19 +1,17 @@
 import React, { JSX, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    TextInput,
+    TouchableOpacity,
+    StyleProp,
+    ViewStyle,
+    TextStyle,
 } from 'react-native';
 import { ScanBarcode } from 'lucide-react-native';
-
-import { NativeStackScreenProps } from '@react-navigation/native-stack'; 
-
+import { useRouter } from 'expo-router'; 
 import { Header } from '../../shared/components/Header';
 import { TabButton } from '../../shared/components/TabButton';
 import { ImagePicker } from '../../shared/components/ImagePicker';
@@ -22,24 +20,18 @@ import { COLORS } from '../../shared/constants/colors';
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
 
+// Enum e Interfaces
 export enum TAB_TYPES {
     PRODUTO = 'Produto',
     ESTOQUE = 'Estoque',
 }
-
-type ProductStackParamList = {
-    AddProduct: undefined; 
-    [key: string]: any; 
-};
-
-type AddProductScreenProps = NativeStackScreenProps<ProductStackParamList, 'AddProduct'>;
 
 interface ProductDataState {
     image: string | null; 
     name: string;
     category: string;
     sellingPrice: string; 
-    costPrice: string;     
+    costPrice: string;      
     internalCode: string;
     barcode: string;
     description: string;
@@ -47,7 +39,12 @@ interface ProductDataState {
 
 type ActiveTab = TAB_TYPES.PRODUTO | TAB_TYPES.ESTOQUE;
 
-export const AddProductScreen = ({ navigation }: AddProductScreenProps): JSX.Element => {
+
+
+export default function AddProductScreen(): JSX.Element {
+    
+    const router = useRouter(); 
+    
     const [activeTab, setActiveTab] = useState<ActiveTab>(TAB_TYPES.PRODUTO);
     
     const [productData, setProductData] = useState<ProductDataState>({
@@ -64,7 +61,7 @@ export const AddProductScreen = ({ navigation }: AddProductScreenProps): JSX.Ele
     
     const handleSave = (): void => {
         console.log('Salvar produto:', productData);
-        navigation.goBack();
+        router.back(); 
     };
 
     const handleImagePick = (): void => {
@@ -73,6 +70,7 @@ export const AddProductScreen = ({ navigation }: AddProductScreenProps): JSX.Ele
 
     const handleBarcodeScan = (): void => {
         console.log('Escanear código de barras');
+      
     };
 
     const updateField = <K extends keyof ProductDataState>(field: K, value: ProductDataState[K]): void => {
@@ -84,7 +82,7 @@ export const AddProductScreen = ({ navigation }: AddProductScreenProps): JSX.Ele
             <Header
                 title="Cadastrar Produto"
                 showBack
-                onBackPress={() => navigation.goBack()}
+                onBackPress={() => router.back()}
             />
 
             <View style={styles.tabsContainer}>
@@ -124,29 +122,29 @@ export const AddProductScreen = ({ navigation }: AddProductScreenProps): JSX.Ele
                         </View>
                         
                         <View style={styles.row}>
-                            <View style={[styles.inputGroup, styles.halfWidth]}>
-                                <Text style={styles.label}>Preço de Venda</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="R$ 250,00"
-                                    placeholderTextColor={COLORS.textLight}
-                                    keyboardType="numeric"
-                                    value={productData.sellingPrice}
-                                    onChangeText={(value: string) => updateField('sellingPrice', value)}
-                                />
-                            </View>
+                             <View style={[styles.inputGroup, styles.halfWidth]}>
+                                 <Text style={styles.label}>Preço de Venda</Text>
+                                 <TextInput
+                                     style={styles.input}
+                                     placeholder="R$ 250,00"
+                                     placeholderTextColor={COLORS.textLight}
+                                     keyboardType="numeric"
+                                     value={productData.sellingPrice}
+                                     onChangeText={(value: string) => updateField('sellingPrice', value)}
+                                 />
+                             </View>
 
-                            <View style={[styles.inputGroup, styles.halfWidth]}>
-                                <Text style={styles.label}>Preço de Custo</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="R$ 100,00"
-                                    placeholderTextColor={COLORS.textLight}
-                                    keyboardType="numeric"
-                                    value={productData.costPrice}
-                                    onChangeText={(value: string) => updateField('costPrice', value)}
-                                />
-                            </View>
+                             <View style={[styles.inputGroup, styles.halfWidth]}>
+                                 <Text style={styles.label}>Preço de Custo</Text>
+                                 <TextInput
+                                     style={styles.input}
+                                     placeholder="R$ 100,00"
+                                     placeholderTextColor={COLORS.textLight}
+                                     keyboardType="numeric"
+                                     value={productData.costPrice}
+                                     onChangeText={(value: string) => updateField('costPrice', value)}
+                                 />
+                             </View>
                         </View>
 
                         <View style={styles.inputGroup}>
@@ -237,9 +235,9 @@ export const AddProductScreen = ({ navigation }: AddProductScreenProps): JSX.Ele
             </View>
         </View>
     );
-};
+} // Fim do export default function
 
-// (Estilos permanecem inalterados, pois já estavam tipados corretamente)
+// Estilos
 const styles = StyleSheet.create({
     container: {
         flex: 1,

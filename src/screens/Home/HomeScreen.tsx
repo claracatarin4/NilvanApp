@@ -8,25 +8,16 @@ import {
     ViewStyle,
     TextStyle,
 } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useRouter } from 'expo-router'; 
 import { Bell } from 'lucide-react-native'; 
 import { Header } from '../../shared/components/Header';
-import { BottomTabBar } from '../../shared/components/BottomTabBar';
 import { CustomButton } from '../../shared/components/CustomButton';
 import { COLORS } from '../../shared/constants/colors'; 
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
 
 
-type RootStackParamList = {
-    Home: undefined; 
-    ProductList: undefined; 
-    AddProduct: undefined; // Melhor tipagem: assumindo que não recebe params
-};
-
-export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
-
-type TabId = 'home' | 'products' | 'shopping' | 'categories';
+type TabId = 'home' | 'products';
 
 interface StatItem {
     label: string;
@@ -40,14 +31,15 @@ type IconComponentType = FC<{
 }>;
 
 
-export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
+export const HomeScreen = (): JSX.Element => {
+    
+    const router = useRouter(); 
 
     const [activeTab, setActiveTab] = useState<TabId>('home');
 
     const handleAddProduct = (): void => {
-        
-        navigation.navigate('ProductList'); 
-    };
+    router.push('/addprodutos/index'); 
+};
 
     const stats: StatItem[] = [
         { label: 'Produtos', value: '4.000.000' },
@@ -59,8 +51,8 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
         <View style={styles.container}>
             <Header
                 showProfile
-                userName="Ivan Santana Jr."
-                userRole="Diretor"
+                userName="Clara Catarina"
+                userRole="UX/UI Designer"
                 userImage="https://via.placeholder.com/40"
 
                 rightIcon={Bell as IconComponentType} 
@@ -85,7 +77,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
                     icon={((props: { color: string, size: number }) => <Text style={styles.plusIcon as StyleProp<TextStyle>}>+</Text>) as IconComponentType}
                     style={styles.addButton}
                 />
-                <BottomTabBar activeTab={activeTab} onTabPress={setActiveTab} />
+                
             </View>
         </View>
     );

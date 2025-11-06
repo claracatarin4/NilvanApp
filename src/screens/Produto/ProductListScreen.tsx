@@ -14,7 +14,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Header } from '../../shared/components/Header';
 import { TabButton } from '../../shared/components/TabButton';
 import { ProductCard } from '../../shared/components/ProductCard';
-import { BottomTabBar } from '../../shared/components/BottomTabBar';
 import { COLORS } from '../../shared/constants/colors'; 
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
@@ -45,14 +44,12 @@ export type ProductListScreenProps = NativeStackScreenProps<MainStackParamList, 
 
 type MainTab = MAIN_TABS.PRODUTOS | MAIN_TABS.ESTOQUE | MAIN_TABS.CATEGORIAS;
 
-type TabId = 'home' | 'products' | 'shopping' | 'categories'; 
 
 type IconComponentType = FC<{ color: string; size: number; style?: StyleProp<ViewStyle> }>;
 
 
 export const ProductListScreen = ({ navigation }: ProductListScreenProps): JSX.Element => {
 
-    const [activeTab, setActiveTab] = useState<TabId>('products'); 
     
     const [activeMainTab, setActiveMainTab] = useState<MainTab>(MAIN_TABS.PRODUTOS);
     
@@ -91,8 +88,8 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps): JSX.E
         <View style={styles.container}>
             <Header
                 showProfile
-                userName="Ivan Santana Jr."
-                userRole="Diretor"
+                userName="Clara Catarina"
+                userRole="UX/UI Designer"
                 userImage="https://via.placeholder.com/40"
                 rightIcon={Bell as IconComponentType} 
                 onRightIconPress={() => console.log('Notificações')}
@@ -137,7 +134,6 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps): JSX.E
                 showsVerticalScrollIndicator={false}
             />
 
-            <BottomTabBar activeTab={activeTab} onTabPress={setActiveTab} />
         </View>
     );
 };

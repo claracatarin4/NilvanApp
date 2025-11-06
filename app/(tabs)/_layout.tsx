@@ -1,79 +1,98 @@
 import { Tabs } from "expo-router";
-import { Text, ViewStyle, TextStyle } from "react-native";
-import { Home, Package } from 'lucide-react-native'; 
-import React, { JSX } from "react"; 
+import { Home, Package } from 'lucide-react-native';
+import { COLORS } from '../../src/shared/constants/colors'; 
+import React from 'react';
+import { StyleSheet, View, ViewStyle } from 'react-native'; 
 
-const iconComponents = {
-  home: Home,
-  produtos: Package,
-} as const;
 
-interface TabBarIconProps {
-  name: keyof typeof iconComponents; 
-  focused: boolean;
-  color: string;
-  size?: number; 
-}
-
-function TabBarIcon({ name, focused, color, size = 28 }: TabBarIconProps): JSX.Element {
-
-  const IconComponent = iconComponents[name]; 
-
-  if (!IconComponent) {
-    const fallbackStyle: TextStyle = { fontSize: size, opacity: focused ? 1 : 0.6 };
-    return <Text style={fallbackStyle}>•</Text>;
-  }
-
-  return (
-    <IconComponent 
-      color={color} 
-      size={size} 
-      style={{ opacity: focused ? 1 : 0.7 }}
-    />
-  );
-}
-
-export default function TabsLayout(): JSX.Element {
-  const customTabBarStyle: ViewStyle = {
-    backgroundColor: "#fff",
-    borderTopWidth: 0,
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    height: 70,
-    paddingBottom: 10,
-    paddingTop: 10,
+export default function TabsLayout() {
+  
+  const ActivePillBackground: ViewStyle = {
+    width: 50,
+    height: 50,  
+    backgroundColor: '#D3D3D3', // Seu cinza claro para o botão ativo
+    borderRadius: 8, 
+    
+    justifyContent: 'center', 
+    alignItems: 'center',
+    elevation: 3,
   };
+  
+  const InactivePill: ViewStyle = {
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
 
   return (
     <Tabs
+      safeAreaInsets={{ 
+        bottom: 0, 
+      }}
+      
       screenOptions={{
         headerShown: false,
-        tabBarStyle: customTabBarStyle,
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: "#1a2b5c",
-        tabBarInactiveTintColor: "#999",
+        tabBarShowLabel: false, 
+
+        tabBarActiveTintColor: COLORS.primary, 
+        tabBarInactiveTintColor: COLORS.textLight, 
+        
+        tabBarStyle: {
+            position: 'absolute', 
+            backgroundColor: '#EEEEEE', 
+            width: 160, 
+            left: 0, 
+            right: 0, 
+            paddingRight:16,
+            paddingTop:16,
+            paddingLeft:16,
+            paddingBottom:16,
+            bottom: 30,         
+            height: 70,
+            borderRadius: 8, 
+            borderTopWidth: 0,
+            justifyContent: 'center', 
+            paddingHorizontal: 10, 
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 8,
+        },
+        
+        tabBarItemStyle: {
+             flex: 1, 
+             width: undefined, 
+             alignItems: 'center', 
+             justifyContent: 'center',
+        },
+
+        tabBarBackground: undefined, 
       }}
     >
-      <Tabs.Screen
-        name="Home/index"
+      <Tabs.Screen 
+        name="home/index" 
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <TabBarIcon name="home" focused={focused} color={color} size={size} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={focused ? ActivePillBackground : InactivePill}>
+                <Home color={color} size={30} />
+            </View>
           ),
         }}
       />
-
-      <Tabs.Screen
-        name="produtos" 
+      <Tabs.Screen 
+        name="produtos/index" 
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <TabBarIcon name="produtos" focused={focused} color={color} size={size} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={focused ? ActivePillBackground : InactivePill}>
+                <Package color={color} size={30} />
+            </View>
           ),
         }}
       />
+      
     </Tabs>
   );
 }

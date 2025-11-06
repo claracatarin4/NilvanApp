@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: SPACING.md,
-        paddingTop: 48, 
-        paddingBottom: SPACING.md,
+        paddingTop: 70, 
+        paddingBottom: 20
     } as ViewStyle,
     leftSection: {
         flexDirection: 'row',

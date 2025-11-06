@@ -10,10 +10,7 @@ export const COLORS = {
     textLight: '#999999',
     border: '#DDDDDD',
     background: '#FAFAFA',
+    backgroundLight: "#F0F0F0",
 } as const;
-
-// (Opcional, mas útil) Você pode exportar o tipo, se precisar dele em outro lugar.
 export type Colors = typeof COLORS;
-
-// (Opcional, mas útil) Você pode exportar um tipo de união para as chaves.
 export type ColorKey = keyof typeof COLORS;

@@ -9,8 +9,14 @@ export default function RootLayout(): JSX.Element {
       }}
     >
       <Stack.Screen name="auth/Login/index" /> 
-      <Stack.Screen name="(tabs)/home/index" /> 
-      <Stack.Screen name="(tabs)/produtos/index" /> 
+      
+      <Stack.Screen name="(tabs)" /> 
+      
+      <Stack.Screen name="addprodutos/index" /> 
+      
+      {/* Se houver cadastros futuros (Estoque, Categoria) */}
+      {/* <Stack.Screen name="AddStock/index" /> */}
+      {/* <Stack.Screen name="AddCategory/index" /> */}
     </Stack>
   );
 }
