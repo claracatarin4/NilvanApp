@@ -1,3 +1,3 @@
-// import SearchProductScreen from '../../src/screens/Pesquisa/Search';
+import SearchProductScreen from '../../src/screens/Pesquisa/SearchProductScreen';
 
-// export default SearchProductScreen;
+export default SearchProductScreen;

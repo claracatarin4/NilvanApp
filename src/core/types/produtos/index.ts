@@ -7,7 +7,7 @@ export interface Product {
   id: string | null;
   name: string;
   category: string;
-  sellingPrice: number; 
+  sellPrice: number; 
   costPrice: number;    
   internalCode: string;
   barcode: string;
@@ -15,16 +15,3 @@ export interface Product {
   imageUrl: string | null; 
   variants: ProductVariant[]; 
 }
-
-export const createProduct = (): Product => ({
-  id: null,
-  name: '',
-  category: '',
-  sellingPrice: '',
-  costPrice: '',
-  internalCode: '',
-  barcode: '',
-  description: '',
-  imageUrl: null,
-  variants: [],
-});

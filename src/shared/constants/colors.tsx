@@ -1,4 +1,3 @@
-// O 'as const' informa ao TypeScript para inferir os tipos literais exatos para cada valor.
 export const COLORS = {
     primary: '#1E2B5C',
     secondary: '#E8344E',

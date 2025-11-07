@@ -34,7 +34,7 @@ export const CustomButton: FC<CustomButtonProps> = ({
     title,
     onPress,
     variant = 'primary', // Valor padrão tipado
-    icon: Icon, // Renomeado para Icon para uso em JSX
+    icon: Icon, 
     style,
     textStyle,
     disabled = false,
@@ -60,14 +60,11 @@ export const CustomButton: FC<CustomButtonProps> = ({
             activeOpacity={0.8}
         >
             <View style={styles.content}>
-                {/* Renderização do ícone se ele for fornecido */}
                 {Icon && (
                     <Icon 
                         size={20} 
                         color={iconColor} 
                         style={styles.icon as ViewStyle} 
-                        // Note: Dependendo do seu ícone (Lucide, Feather), 
-                        // ele pode precisar de props como 'strokeWidth' também.
                     />
                 )}
                 <Text style={[textStyleVariant, textStyle]}>
@@ -78,7 +75,6 @@ export const CustomButton: FC<CustomButtonProps> = ({
     );
 };
 
-// --- 3. TIPAGEM DOS ESTILOS ---
 
 const styles = StyleSheet.create({
     buttonPrimary: {
@@ -124,7 +120,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     } as TextStyle,
     textSecondary: {
-        color: COLORS.primary,
+        color: COLORS.white,
         fontSize: FONT_SIZES.medium,
         fontWeight: '600',
     } as TextStyle,

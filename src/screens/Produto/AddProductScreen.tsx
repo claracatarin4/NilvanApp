@@ -353,6 +353,6 @@ const styles = StyleSheet.create({
     saveButton: {
         width: '100%',
         backgroundColor: COLORS.primary,
-        paddingBottom:20
+        paddingBottom:20,
     } as ViewStyle,
 });

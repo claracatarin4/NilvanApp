@@ -14,6 +14,7 @@ import { SPACING } from '../../shared/constants/spacing';
 import { FONT_SIZES } from '../../shared/constants/fonts';
 
 interface Product {
+
     id: number | string; 
     name: string;
     code: string;
@@ -28,7 +29,7 @@ interface ProductCardProps {
 
 export const ProductCard: FC<ProductCardProps> = ({ product, onPress }) => {
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
             style={styles.card} 
             onPress={onPress} 
             activeOpacity={0.7}

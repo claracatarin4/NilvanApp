@@ -12,10 +12,9 @@ export default function TabsLayout() {
     height: 50,  
     backgroundColor: '#D3D3D3', // Seu cinza claro para o botão ativo
     borderRadius: 8, 
-    
     justifyContent: 'center', 
     alignItems: 'center',
-    elevation: 3,
+   
   };
   
   const InactivePill: ViewStyle = {
@@ -27,6 +26,7 @@ export default function TabsLayout() {
 
 
   return (
+
     <Tabs
       safeAreaInsets={{ 
         bottom: 0, 
@@ -43,10 +43,9 @@ export default function TabsLayout() {
             position: 'absolute', 
             backgroundColor: '#EEEEEE', 
             width: 160, 
-            marginLeft: 'auto', 
-            marginRight: 'auto',
+            marginHorizontal: "30%",
             right: undefined, 
-            alignSelf: 'center',
+          alignItems:'center',
             paddingRight:16,
             paddingTop:16,
             paddingLeft:16,
@@ -57,11 +56,8 @@ export default function TabsLayout() {
             borderTopWidth: 0,
             justifyContent: 'center', 
             paddingHorizontal: 10, 
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.1,
-            shadowRadius: 8,
-            elevation: 8,
+            elevation: 0
+      
         },
         
         tabBarItemStyle: {
@@ -96,5 +92,5 @@ export default function TabsLayout() {
       />
       
     </Tabs>
-  );
+      );
 }

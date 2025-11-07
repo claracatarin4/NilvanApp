@@ -82,7 +82,7 @@ export const ProductListScreen = (): JSX.Element => {
 
     const handleSearchPress = (): void => {
 
-        // router.push('/pesquisa');
+        router.push('/pesquisa');
     };
 
     return (

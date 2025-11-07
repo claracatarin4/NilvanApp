@@ -1,11 +1,7 @@
 import { TAB_TYPES } from "../../screens/Produto/AddProductScreen";
 
-export const TAB_TYPES = {
-  PRODUTO: 'Produto',
-  ESTOQUE: 'Estoque',
-} as const; 
+export type TabType = TAB_TYPES.PRODUTO | TAB_TYPES.ESTOQUE; 
 
-type TabType = TAB_TYPES.ESTOQUE ;
 
 export const MAIN_TABS = {
   PRODUTOS: 'Produtos',
@@ -13,4 +9,7 @@ export const MAIN_TABS = {
   CATEGORIAS: 'Categorias',
 } as const;
 
+
+
 export type MainTabType = typeof MAIN_TABS[keyof typeof MAIN_TABS];
+

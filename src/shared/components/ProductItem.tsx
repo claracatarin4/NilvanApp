@@ -3,7 +3,8 @@ import { Product } from '../../core/types/produtos';
 import { COLORS } from '../../shared/constants/colors';
 
 interface ProductItemProps {
-    
+  
+  onPress: () => void;
   product: Product;
 }
 
