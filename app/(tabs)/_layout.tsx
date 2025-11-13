@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { Home, Package } from 'lucide-react-native';
+import { Home, Package, Users } from 'lucide-react-native';
 import { COLORS } from '../../src/shared/constants/colors'; 
 import React from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native'; 
@@ -10,7 +10,7 @@ export default function TabsLayout() {
   const ActivePillBackground: ViewStyle = {
     width: 50,
     height: 50,  
-    backgroundColor: '#D3D3D3', // Seu cinza claro para o botão ativo
+    backgroundColor: '#D3D3D3', 
     borderRadius: 8, 
     justifyContent: 'center', 
     alignItems: 'center',
@@ -42,10 +42,10 @@ export default function TabsLayout() {
         tabBarStyle: {
             position: 'absolute', 
             backgroundColor: '#EEEEEE', 
-            width: 160, 
-            marginHorizontal: "30%",
+            width: 200, 
+            marginHorizontal: "24%",
             right: undefined, 
-          alignItems:'center',
+            alignItems:'center',
             paddingRight:16,
             paddingTop:16,
             paddingLeft:16,
@@ -55,7 +55,7 @@ export default function TabsLayout() {
             borderRadius: 8, 
             borderTopWidth: 0,
             justifyContent: 'center', 
-            paddingHorizontal: 10, 
+            paddingHorizontal: 20, 
             elevation: 0
       
         },
@@ -86,6 +86,16 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, focused }) => (
             <View style={focused ? ActivePillBackground : InactivePill}>
                 <Package color={color} size={30} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen 
+        name="usuarios/index" 
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <View style={focused ? ActivePillBackground : InactivePill}>
+                <Users color={color} size={30} />
             </View>
           ),
         }}

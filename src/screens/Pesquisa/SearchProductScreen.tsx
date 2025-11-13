@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
-import { ArrowLeft } from 'lucide-react-native';
+import { ChevronLeft } from 'lucide-react-native';
 import SearchBar from '../../shared/components/SearchBar';
 import ProductItem from '../../shared/components/ProductItem';
 import { COLORS } from '../../shared/constants/colors';
@@ -59,14 +59,15 @@ export default function SearchProductScreen() {
 
     return (
         <View style={styles.container}>
+
             <StatusBar barStyle="dark-content" backgroundColor={COLORS.white} />
 
             <View style={styles.header}>
                 <View style={styles.searchContainer}>
                     <TouchableOpacity onPress={handleBack}>
-                        <ArrowLeft
-                            size={24}
-                            color={COLORS.text}
+                        <ChevronLeft 
+                            size={30}
+                            color={COLORS.primary}
                             style={styles.backIcon}
                         />
                     </TouchableOpacity>
@@ -81,8 +82,7 @@ export default function SearchProductScreen() {
             </View>
 
             <ScrollView style={styles.content}>
-                <Text style={styles.sectionTitle}>Acessados Recentemente</Text>
-
+            
                 {recentProducts.map((product) => (
                     <ProductItem 
                         key={product.id} 
@@ -99,10 +99,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.white,
+
     },
     header: {
         paddingTop: 50,
-        paddingBottom: 8,
+        paddingBottom: 20,
     },
     searchContainer: {
         flexDirection: 'row',
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         fontSize: 14,
-        color: COLORS.secondary, 
+        color: COLORS.primary, 
         marginHorizontal: 16,
         marginTop: 24,
         marginBottom: 16,

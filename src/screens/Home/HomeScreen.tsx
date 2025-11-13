@@ -9,7 +9,7 @@ import {
     TextStyle,
 } from 'react-native';
 import { useRouter } from 'expo-router'; 
-import { Bell } from 'lucide-react-native'; 
+import { Bell, LucideIcon, ScanBarcode } from 'lucide-react-native'; 
 import { Header } from '../../shared/components/Header';
 import { CustomButton } from '../../shared/components/CustomButton';
 import { COLORS } from '../../shared/constants/colors'; 
@@ -18,6 +18,8 @@ import { FONT_SIZES } from '../../shared/constants/fonts';
 
 
 type TabId = 'home' | 'products';
+
+export interface HomeScreenProps {} 
 
 interface StatItem {
     label: string;
@@ -30,16 +32,15 @@ type IconComponentType = FC<{
     style?: StyleProp<ViewStyle>; 
 }>;
 
-
-export const HomeScreen = (): JSX.Element => {
+export const HomeScreen: FC<HomeScreenProps> = (): JSX.Element => {
     
     const router = useRouter(); 
 
     const [activeTab, setActiveTab] = useState<TabId>('home');
 
     const handleAddProduct = (): void => {
-    router.push('/addprodutos'); 
-};
+        router.push('/addprodutos'); 
+    };
 
     const stats: StatItem[] = [
         { label: 'Produtos', value: '4.000.000' },
@@ -50,13 +51,12 @@ export const HomeScreen = (): JSX.Element => {
     return (
         <View style={styles.container}>
             <Header
-                showProfile
-                userName="Clara Catarina"
-                userRole="UX/UI Designer"
-                userImage="https://via.placeholder.com/40"
-
-                rightIcon={Bell as IconComponentType} 
-                onRightIconPress={() => console.log('Notificações')}
+                 showProfile // O seu Header customizado aceita esta prop!
+                 userName="Clara Catarina"
+                 userRole="UX/UI Designer"
+                 userImage="https://via.placeholder.com/40"
+                 rightIcon={ScanBarcode as LucideIcon} // Casting para garantir tipagem correta se o Header exigir
+                 onRightIconPress={() => console.log('Notificações')}
             />
 
             <ScrollView style={styles.content as StyleProp<ViewStyle>} showsVerticalScrollIndicator={false}>
@@ -67,20 +67,22 @@ export const HomeScreen = (): JSX.Element => {
                     </View>
                 ))}
 
-            <View>
-                
-                <CustomButton
-                    title="Adicionar Produto"
-                    onPress={handleAddProduct}
+                <View style={styles.buttonWrapper}>
                     
-                    icon={((props: { color: string, size: number }) => <Text style={styles.plusIcon as StyleProp<TextStyle>}>+</Text>) as IconComponentType}
-                    style={styles.addButton}
-                />
-                
-            </View>
+                    <CustomButton
+                        title="Adicionar Produto"
+                        onPress={handleAddProduct}
+                        
+                        icon={((props: { color: string, size: number }) => (
+                            <Text style={[styles.plusIcon, {color: props.color}]}>+</Text>
+                        )) as IconComponentType}
+                        
+                        style={styles.addButton}
+                    />
+                    
+                </View>
             </ScrollView>
 
-        
         </View>
     );
 };
@@ -98,8 +100,7 @@ const styles = StyleSheet.create({
     statCard: {
         backgroundColor: COLORS.white,
         padding: SPACING.lg,
-        marginBottom: SPACING.md,
-        borderRadius: 12,
+        marginBottom: SPACING.md, 
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
@@ -116,12 +117,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: COLORS.text,
     } as TextStyle,
+    buttonWrapper: {
+        paddingTop: SPACING.lg, 
+        marginBottom: SPACING.xl, 
+    } as ViewStyle,
     addButton: {
-        width:360,
+        width: '100%', 
     } as ViewStyle,
     plusIcon: {
-        fontSize: 20,
-        color: COLORS.white,
+        fontSize: FONT_SIZES.xlarge,
+        lineHeight: FONT_SIZES.xlarge,
         fontWeight: 'bold',
         marginRight: SPACING.xs,
     } as TextStyle,

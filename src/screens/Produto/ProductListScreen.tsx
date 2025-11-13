@@ -11,14 +11,13 @@ import {
     TouchableOpacity, 
 } from 'react-native';
 import { useRouter } from 'expo-router'; 
-import { Search, Bell } from 'lucide-react-native'; 
+import { Search, Bell, ScanBarcode } from 'lucide-react-native'; 
 import { Header } from '../../shared/components/Header';
 import { TabButton } from '../../shared/components/TabButton';
 import { ProductCard } from '../../shared/components/ProductCard';
 import { COLORS } from '../../shared/constants/colors'; 
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
-
 
 
 export enum MAIN_TABS {
@@ -40,8 +39,10 @@ type MainTab = MAIN_TABS.PRODUTOS | MAIN_TABS.ESTOQUE | MAIN_TABS.CATEGORIAS;
 
 type IconComponentType = FC<{ color: string; size: number; style?: StyleProp<ViewStyle> }>;
 
+export interface ProductListScreenProps {} 
 
-export const ProductListScreen = (): JSX.Element => {
+
+export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => {
 
     const router = useRouter(); 
     
@@ -76,12 +77,11 @@ export const ProductListScreen = (): JSX.Element => {
     const handleProductPress = (product: Product): void => {
         router.push({
             pathname: '/addprodutos',
-            params: { productId: product.id },
+            params: { productId: product.id.toString() }, 
         }); 
     };
 
     const handleSearchPress = (): void => {
-
         router.push('/pesquisa');
     };
 
@@ -92,7 +92,7 @@ export const ProductListScreen = (): JSX.Element => {
                 userName="Clara Catarina"
                 userRole="UX/UI Designer"
                 userImage="https://via.placeholder.com/40"
-                rightIcon={Bell as IconComponentType} 
+                rightIcon={ScanBarcode} 
                 onRightIconPress={() => console.log('Notificações')}
             />
 
@@ -153,16 +153,17 @@ const styles = StyleSheet.create({
     tabsContainer: {
         flexDirection: 'row',
         backgroundColor: COLORS.primary,
+        
     } as ViewStyle,
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: COLORS.white, 
         marginHorizontal: SPACING.md,
         marginVertical: SPACING.md,
         paddingHorizontal: SPACING.md,
         paddingVertical: 5, 
-        borderRadius: 8, 
+        borderBottomWidth:1,
+        borderBottomColor: COLORS.border, 
         borderColor: COLORS.border,
         
     } as ViewStyle,
