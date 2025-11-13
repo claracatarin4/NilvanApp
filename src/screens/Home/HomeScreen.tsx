@@ -8,38 +8,39 @@ import {
     ViewStyle,
     TextStyle,
 } from 'react-native';
-import { useRouter } from 'expo-router'; 
-import { Bell, LucideIcon, ScanBarcode } from 'lucide-react-native'; 
+import { useRouter } from 'expo-router';
+import { LucideIcon, Plus, ScanBarcode } from 'lucide-react-native';
 import { Header } from '../../shared/components/Header';
 import { CustomButton } from '../../shared/components/CustomButton';
-import { COLORS } from '../../shared/constants/colors'; 
-import { SPACING } from '../../shared/constants/spacing'; 
+import { COLORS } from '../../shared/constants/colors';
+import { SPACING } from '../../shared/constants/spacing';
 import { FONT_SIZES } from '../../shared/constants/fonts';
 
 
 type TabId = 'home' | 'products';
 
-export interface HomeScreenProps {} 
+export interface HomeScreenProps {}
 
 interface StatItem {
     label: string;
     value: string;
 }
 
-type IconComponentType = FC<{ 
-    color: string; 
-    size: number;
-    style?: StyleProp<ViewStyle>; 
-}>;
+// O tipo IconComponentType não é mais necessário, pois você usa LucideIcon diretamente.
+// type IconComponentType = FC<{ 
+//     color: string; 
+//     size: number;
+//     style?: StyleProp<ViewStyle>; 
+// }>;
 
 export const HomeScreen: FC<HomeScreenProps> = (): JSX.Element => {
-    
-    const router = useRouter(); 
+
+    const router = useRouter();
 
     const [activeTab, setActiveTab] = useState<TabId>('home');
 
     const handleAddProduct = (): void => {
-        router.push('/addprodutos'); 
+        router.push('/addprodutos');
     };
 
     const stats: StatItem[] = [
@@ -51,12 +52,12 @@ export const HomeScreen: FC<HomeScreenProps> = (): JSX.Element => {
     return (
         <View style={styles.container}>
             <Header
-                 showProfile // O seu Header customizado aceita esta prop!
-                 userName="Clara Catarina"
-                 userRole="UX/UI Designer"
-                 userImage="https://via.placeholder.com/40"
-                 rightIcon={ScanBarcode as LucideIcon} // Casting para garantir tipagem correta se o Header exigir
-                 onRightIconPress={() => console.log('Notificações')}
+                    showProfile
+                    userName="Clara Catarina"
+                    userRole="UX/UI Designer"
+                    userImage="https://via.placeholder.com/40"
+                    rightIcon={ScanBarcode as LucideIcon}
+                    onRightIconPress={() => console.log('Notificações')}
             />
 
             <ScrollView style={styles.content as StyleProp<ViewStyle>} showsVerticalScrollIndicator={false}>
@@ -68,18 +69,14 @@ export const HomeScreen: FC<HomeScreenProps> = (): JSX.Element => {
                 ))}
 
                 <View style={styles.buttonWrapper}>
-                    
+
                     <CustomButton
                         title="Adicionar Produto"
                         onPress={handleAddProduct}
-                        
-                        icon={((props: { color: string, size: number }) => (
-                            <Text style={[styles.plusIcon, {color: props.color}]}>+</Text>
-                        )) as IconComponentType}
-                        
+                        icon={Plus}
                         style={styles.addButton}
                     />
-                    
+
                 </View>
             </ScrollView>
 
@@ -100,34 +97,30 @@ const styles = StyleSheet.create({
     statCard: {
         backgroundColor: COLORS.white,
         padding: SPACING.lg,
-        marginBottom: SPACING.md, 
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
-        elevation: 2,
+        marginBottom: SPACING.md,
+        borderWidth: 1,
+        borderRadius: 8,
+        borderColor: COLORS.border
     } as ViewStyle,
     statLabel: {
         fontSize: FONT_SIZES.medium,
         color: COLORS.textLight,
         marginBottom: SPACING.xs,
+
     } as TextStyle,
     statValue: {
         fontSize: FONT_SIZES.xxlarge,
         fontWeight: 'bold',
-        color: COLORS.text,
+        color: COLORS.primary,
     } as TextStyle,
     buttonWrapper: {
-        paddingTop: SPACING.lg, 
-        marginBottom: SPACING.xl, 
+        paddingTop: SPACING.lg,
+        marginBottom: SPACING.xl,
     } as ViewStyle,
     addButton: {
-        width: '100%', 
+        width: '100%',
     } as ViewStyle,
     plusIcon: {
-        fontSize: FONT_SIZES.xlarge,
-        lineHeight: FONT_SIZES.xlarge,
-        fontWeight: 'bold',
         marginRight: SPACING.xs,
     } as TextStyle,
 });

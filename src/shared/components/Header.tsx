@@ -10,7 +10,7 @@ import {
     TextStyle,
 } from 'react-native';
 
-import { ArrowLeft, Bell, Icon,  } from 'lucide-react-native'; 
+import { ArrowLeft, Bell, ChevronLeft, Icon,  } from 'lucide-react-native'; 
 import { COLORS } from '../../shared/constants/colors'; 
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
@@ -55,7 +55,7 @@ export const Header: FC<HeaderProps> = ({
             <View style={styles.leftSection}>
                 {showBack ? (
                     <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-                        <ArrowLeft size={24} color={COLORS.white} />
+                        <ChevronLeft size={24} color={COLORS.white} />
                     </TouchableOpacity>
                 ) : showProfile ? (
                     <TouchableOpacity style={styles.profileSection}>

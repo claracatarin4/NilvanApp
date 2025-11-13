@@ -9,7 +9,7 @@ export const COLORS = {
     text: '#333333',
     textLight: '#999999',
     border: '#DDDDDD',
-    background: '#FAFAFA',
+    background: '#FFFFFF',
     backgroundLight: "#F0F0F0",
 } as const;
 export type Colors = typeof COLORS;

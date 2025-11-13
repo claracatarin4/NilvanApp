@@ -14,7 +14,9 @@ export default function RootLayout(): JSX.Element {
       
       <Stack.Screen name="addprodutos/index" /> 
 
-      <Stack.Screen name="pesquisa/index"/> 
+      <Stack.Screen name="pesquisa/index"/>
+      
+      <Stack.Screen name="verproduto/index"/> 
       
       {/* Se houver cadastros futuros (Estoque, Categoria) */}
       {/* <Stack.Screen name="AddStock/index" /> */}

@@ -2,17 +2,11 @@ import { useRouter } from "expo-router";
 import React, { JSX, useState } from "react"; 
 import { Users } from "../../core/types/users";
 import { FlatList, StyleProp, TextInput, TextStyle, TouchableOpacity, View, ViewStyle, StyleSheet, Text } from "react-native"; 
-// REMOVIDO: import { Header } from "@react-navigation/elements";
-
-// ADICIONADO: Importe o seu componente Header customizado
 import { Header } from "../../shared/components/Header"; 
-
 import { COLORS, FONT_SIZES, SPACING } from "../../shared/constants";
-import { Search , ScanBarcode, LucideIcon } from "lucide-react-native"; // Importado LucideIcon para a tipagem do rightIcon
-
+import { Search , ScanBarcode, LucideIcon } from "lucide-react-native"; 
 import { UserCard } from "../../shared/components/UserCard"; 
 
-// Se você precisar exportar props para a rota, adicione aqui:
 export interface UsersListScreenProps {}
 
 export const UsersListScreen = (): JSX.Element => {
@@ -58,7 +52,7 @@ export const UsersListScreen = (): JSX.Element => {
     };
 
     const handleSearchPress = (): void => {
-        router.push('/pesquisa');
+        router.push('/pesquisa'); 
     };
 
     return (
@@ -72,8 +66,6 @@ export const UsersListScreen = (): JSX.Element => {
                  onRightIconPress={() => console.log('Notificações')}
              />
             
-            
-
             <TouchableOpacity 
                 style={styles.searchContainer as StyleProp<ViewStyle>}
                 onPress={handleSearchPress}
@@ -88,12 +80,9 @@ export const UsersListScreen = (): JSX.Element => {
                     value={searchQuery}
                     editable={false} 
                 />
-
-
             </TouchableOpacity>
 
             <FlatList
-
                 data={usersList} 
                 keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
                 renderItem={({ item }) => (
@@ -102,7 +91,6 @@ export const UsersListScreen = (): JSX.Element => {
                 contentContainerStyle={styles.listContent as StyleProp<ViewStyle>}
                 showsVerticalScrollIndicator={false}
             />
-
         </View>
     );
 };
@@ -115,9 +103,9 @@ const styles = StyleSheet.create({
     } as ViewStyle,
     listContent: {
         paddingTop: SPACING.sm, 
+        paddingHorizontal: SPACING.md,
         paddingBottom: SPACING.md * 3,
     } as ViewStyle,
-    // ... restante dos seus estilos ...
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -137,6 +125,4 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZES.medium,
         color: COLORS.text,
     } as TextStyle,
-    
-    // ... (restante dos estilos omitidos por brevidade, mas estão OK)
 });

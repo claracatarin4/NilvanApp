@@ -13,7 +13,6 @@ import {
 import { useRouter } from 'expo-router'; 
 import { Eye, EyeOff, UserPlus } from 'lucide-react-native'; 
 import { Header } from '../..//src/shared/components/Header';
-import { ImagePicker } from '../../src/shared/components/ImagePicker';
 import { CustomButton } from '../../src/shared/components/CustomButton';
 import { COLORS } from '../..//src/shared/constants/colors'; 
 import { SPACING } from '../..//src/shared/constants/spacing'; 
@@ -29,8 +28,6 @@ interface UserDataState {
     confirmPassword: string;
     status: 'active' | 'inactive'; 
 }
-
-export interface AddUserScreenProps {}
 
 export default function AddUserScreen(): JSX.Element {
     
@@ -92,11 +89,12 @@ export default function AddUserScreen(): JSX.Element {
                 contentContainerStyle={styles.scrollContent as StyleProp<ViewStyle>}
                 showsVerticalScrollIndicator={false}
             >
-                <AvatarPicker 
-                    imageUri={userData.image} 
-                    onPress={handleImagePick} 
-                    style={styles.imagePicker}
-                />
+                <View style={styles.imagePicker}>
+                    <AvatarPicker 
+                        imageUri={userData.image} 
+                        onPress={handleImagePick} 
+                    />
+                </View>
                 
                 <View style={styles.inputGroup}>
                     <Text style={styles.label}>Nome Completo</Text>
@@ -187,7 +185,7 @@ export default function AddUserScreen(): JSX.Element {
                     onPress={handleSave}
                     variant="secondary"
                     icon={((props: { color: string, size: number }) => (
-                         <UserPlus size={props.size} color={props.color} />
+                            <UserPlus size={props.size} color={props.color} />
                     )) as React.FC<{ color: string, size: number }>}
                     style={styles.saveButton}
                 />
@@ -207,10 +205,12 @@ const styles = StyleSheet.create({
     } as ViewStyle,
     scrollContent: {
         padding: SPACING.md,
-        paddingBottom: SPACING.xl,
+        paddingBottom: SPACING.xl * 2, 
     } as ViewStyle,
     imagePicker: {
-        marginBottom: SPACING.lg, // Adiciona espaço abaixo do seletor de imagem
+  
+        marginBottom: SPACING.lg, 
+        alignItems: 'center', 
     } as ViewStyle,
     inputGroup: {
         marginBottom: SPACING.md,
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
         marginBottom: SPACING.xs,
         fontWeight: '500',
     } as TextStyle,
-    // Removido labelRow (apenas necessário para o scanner de código de barras)
+
     input: {
         backgroundColor: COLORS.white,
         borderWidth: 1,
@@ -240,7 +240,6 @@ const styles = StyleSheet.create({
         width: '48%',
     } as ViewStyle,
 
-    // Estilos Específicos para Senha
     passwordInputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -261,7 +260,6 @@ const styles = StyleSheet.create({
         padding: SPACING.xs,
     } as ViewStyle,
 
-    // Estilos Específicos para Status
     statusContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -279,10 +277,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     } as ViewStyle,
     statusActive: {
-        backgroundColor: COLORS.success,
+        backgroundColor: COLORS.primary,
     } as ViewStyle,
     statusInactive: {
-        backgroundColor: COLORS.error,
+        backgroundColor: COLORS.warning,
     } as ViewStyle,
     statusText: {
         color: COLORS.white,
@@ -296,12 +294,10 @@ const styles = StyleSheet.create({
         padding: SPACING.md,
         borderTopWidth: 1,
         borderTopColor: COLORS.border,
-        height: 100, 
+        paddingBottom: 40, 
     } as ViewStyle,
 
     saveButton: {
         width: '100%',
-        backgroundColor: COLORS.primary,
-        paddingBottom: 20, 
     } as ViewStyle,
 });

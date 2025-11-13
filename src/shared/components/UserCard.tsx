@@ -67,14 +67,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between', 
         backgroundColor: COLORS.white, 
         padding: SPACING.md,
-        marginHorizontal: SPACING.md, 
-        marginBottom: SPACING.sm,
-        borderRadius: 8,
-        shadowColor: COLORS.darkGray,
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 3,
+        borderWidth:1,
+        borderBottomColor: COLORS.border,
+        borderColor: COLORS.white
+
     } as ViewStyle,
     image: {
         width: 60,
