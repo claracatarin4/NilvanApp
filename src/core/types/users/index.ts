@@ -1,3 +1,5 @@
+import { RoleName } from "../../../shared/enums/roleName";
+
 export interface Users {
   id: number | null;
   imagem: null;
@@ -5,8 +7,26 @@ export interface Users {
   cargo: string;
   email: string; 
   senha: string;  
-  role: string;
+  role: RoleName;
   status: number; 
+}
+
+export interface UserResponse{
+  id:number,
+  nome:string,
+  cargo:string,
+  email:string,
+  senha:string,
+  status:number;
+}
+
+export interface LoginDtoRequest{
+  email: string,
+  senha: string;
+}
+
+export interface LoginDTOResponse{
+  token: string;
 }
 
 export interface UserCardProps {
