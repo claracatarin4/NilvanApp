@@ -9,7 +9,7 @@ import {
     TextStyle,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { LucideIcon, Plus, ScanBarcode } from 'lucide-react-native';
+import { LucideIcon, Plus, ScanBarcode, Search } from 'lucide-react-native';
 import { Header } from '../../shared/components/Header';
 import { CustomButton } from '../../shared/components/CustomButton';
 import { COLORS } from '../../shared/constants/colors';
@@ -56,7 +56,7 @@ export const HomeScreen: FC<HomeScreenProps> = (): JSX.Element => {
                     userName="Clara Catarina"
                     userRole="UX/UI Designer"
                     userImage="https://via.placeholder.com/40"
-                    rightIcon={ScanBarcode as LucideIcon}
+                    rightIcon={Search} 
                     onRightIconPress={() => console.log('Notificações')}
             />
 

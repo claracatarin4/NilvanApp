@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, StatusBar, TouchableOpacity, TextInput } from 'react-native'; // Adicionado TextInput
 import { useState } from 'react';
-import { ChevronLeft } from 'lucide-react-native';
-import SearchBar from '../../shared/components/SearchBar';
+// Ícones agora importados: ChevronLeft, Search e ScanBarcode
+import { ChevronLeft, Search, ScanBarcode } from 'lucide-react-native'; 
+// import SearchBar from '../../shared/components/SearchBar'; // Removido
 import ProductItem from '../../shared/components/ProductItem';
 import { COLORS } from '../../shared/constants/colors';
 import { Product } from '../../core/types/produtos/index';
@@ -13,36 +14,14 @@ export default function SearchProductScreen() {
     const [searchQuery, setSearchQuery] = useState('');
 
     const recentProducts: Product[] = [
-        {
-            id: '1',
-            name: 'Bolsa Térmica Cooler - 14,5 Litros',
-            price: 160.00, 
-            imageUrl: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg',
-            category: 'Bolsas',
-            sellPrice: 160.0, 
-            costPrice: 80.0, 
-            internalCode: 'BTC1',
-            barcode: '1234567890123',
-            description: '+28 (VERMELHO, AZUL)',
-            variants: []
-        },
-        {
-            id: '2',
-            name: 'Bolsa Térmica Cooler - 14,5 Litros',
-            price: 160.00,
-            imageUrl: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg',
-            category: 'Bolsas',
-            sellPrice: 160.0,
-            costPrice: 80.0,
-            internalCode: 'BTC2',
-            barcode: '1234567890124',
-            description: '+28 (VERMELHO, AZUL)',
-            variants: []
-        },
+        // ... Seus produtos aqui
+        { id: '1', name: 'Bolsa Térmica Cooler - 14,5 Litros', price: 160.00, imageUrl: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg', category: 'Bolsas', sellPrice: 160.0, costPrice: 80.0, internalCode: 'BTC1', barcode: '1234567890123', description: '+28 (VERMELHO, AZUL)', variants: [] },
+        { id: '2', name: 'Bolsa Térmica Cooler - 14,5 Litros', price: 160.00, imageUrl: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg', category: 'Bolsas', sellPrice: 160.0, costPrice: 80.0, internalCode: 'BTC2', barcode: '1234567890124', description: '+28 (VERMELHO, AZUL)', variants: [] },
     ];
 
     const handleSearch = () => {
         console.log('Search:', searchQuery);
+        // Lógica de pesquisa será acionada pelo toque no ícone Search
     };
 
     const handleBack = () => {
@@ -50,11 +29,14 @@ export default function SearchProductScreen() {
     };
     
     const handleProductPress = (product: Product): void => {
-        
         router.push({
             pathname: '/verproduto',
             params: { productId: product.id },
         }); 
+    };
+
+    const handleScanBarcode = () => {
+        console.log('Iniciando Scanner de Código de Barras...');
     };
 
     return (
@@ -64,6 +46,7 @@ export default function SearchProductScreen() {
 
             <View style={styles.header}>
                 <View style={styles.searchContainer}>
+
                     <TouchableOpacity onPress={handleBack}>
                         <ChevronLeft 
                             size={30}
@@ -71,18 +54,38 @@ export default function SearchProductScreen() {
                             style={styles.backIcon}
                         />
                     </TouchableOpacity>
+                    
                     <View style={styles.searchWrapper}>
-                        <SearchBar
-                            value={searchQuery}
-                            onChangeText={setSearchQuery}
-                            onSearch={handleSearch}
-                        />
+                        
+                        <View style={styles.inputWrapper}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Pesquisar produto, código, etc."
+                                value={searchQuery}
+                                onChangeText={setSearchQuery}
+                                onSubmitEditing={handleSearch} 
+                            />
+                        </View>
+
+                        <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
+                            <Search
+                                size={24}
+                                color={COLORS.primary}
+                            />
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity onPress={handleScanBarcode} style={styles.barcodeButton}>
+                            <ScanBarcode
+                                size={24}
+                                color={COLORS.primary}
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
 
             <ScrollView style={styles.content}>
-            
+                <Text style={styles.sectionTitle}>Produtos Recentes:</Text>
                 {recentProducts.map((product) => (
                     <ProductItem 
                         key={product.id} 
@@ -115,7 +118,30 @@ const styles = StyleSheet.create({
     },
     searchWrapper: {
         flex: 1,
-        marginRight: -16,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    inputWrapper: {
+        flex: 1,
+        height: 48,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: COLORS.primary,
+        justifyContent: 'center', 
+        paddingHorizontal: 12,
+        marginRight: 8, 
+    },
+    input: {
+        fontSize: 16,
+        color: COLORS.mediumGray,
+        padding: 0, 
+    },
+    searchButton: {
+        padding: 8,
+        marginRight: 4, 
+    },
+    barcodeButton: {
+        padding: 8,
     },
     content: {
         flex: 1,

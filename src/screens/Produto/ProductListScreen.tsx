@@ -11,7 +11,7 @@ import {
     TouchableOpacity, 
 } from 'react-native';
 import { useRouter } from 'expo-router'; 
-import { Search, Bell, ScanBarcode } from 'lucide-react-native'; 
+import { Search, } from 'lucide-react-native'; 
 import { Header } from '../../shared/components/Header';
 import { TabButton } from '../../shared/components/TabButton';
 import { ProductCard } from '../../shared/components/ProductCard';
@@ -92,7 +92,7 @@ export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => 
                 userName="Clara Catarina"
                 userRole="UX/UI Designer"
                 userImage="https://via.placeholder.com/40"
-                rightIcon={ScanBarcode} 
+                rightIcon={Search} 
                 onRightIconPress={() => console.log('Notificações')}
             />
 

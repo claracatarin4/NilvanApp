@@ -16,6 +16,7 @@ export interface UserResponse{
   nome:string,
   cargo:string,
   email:string,
+  role: RoleName;
   senha:string,
   status:number;
 }
