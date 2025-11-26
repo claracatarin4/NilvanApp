@@ -3,7 +3,7 @@ import StorageService from '../../shared/service/storage';
 
 const api = axios.create({
 
-  baseURL: 'http://localhost:8410/api', 
+  baseURL: 'http://academico3.rj.senac.br/nilvanapp', 
   headers: {
 
     'Content-Type': 'application/json'
