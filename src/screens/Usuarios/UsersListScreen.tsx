@@ -18,8 +18,8 @@ import { Header } from "../../shared/components/Header";
 import { COLORS, FONT_SIZES, SPACING } from "../../shared/constants";
 import { Search , ScanBarcode, LucideIcon } from "lucide-react-native"; 
 import { UserCard } from "../../shared/components/UserCard"; 
-
 import UserService from "../../shared/service/usuarios/index"; 
+
 
 export interface UsersListScreenProps {}
 
