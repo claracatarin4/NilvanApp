@@ -1,5 +1,7 @@
 import { useRouter } from "expo-router";
-import React, { JSX, useState } from "react"; 
+// 🔑 Adicionado useEffect e useFocusEffect (necessita de @react-navigation/native)
+import React, { JSX, useState, useCallback, useEffect } from "react"; 
+import { useFocusEffect } from "@react-navigation/native";
 import { UserResponse, Users } from "../../core/types/users"; 
 import { 
     FlatList, 
@@ -16,10 +18,10 @@ import {
 } from "react-native"; 
 import { Header } from "../../shared/components/Header"; 
 import { COLORS, FONT_SIZES, SPACING } from "../../shared/constants";
-import { Search , ScanBarcode, LucideIcon } from "lucide-react-native"; 
+import { Search , Plus, LucideIcon } from "lucide-react-native"; 
 import { UserCard } from "../../shared/components/UserCard"; 
-
 import UserService from "../../shared/service/usuarios/index"; 
+
 
 export interface UsersListScreenProps {}
 
@@ -48,7 +50,11 @@ export const UsersListScreen = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchUsers = async () => {
+    // 🔑 NOVO ESTADO: Para armazenar os dados do usuário logado
+    const [loggedUser, setLoggedUser] = useState<UserResponse | null>(null);
+
+    // --- LÓGICA DE BUSCA DA LISTA DE USUÁRIOS ---
+    const fetchUsers = useCallback(async () => {
         setIsLoading(true);
         setError(null);
         try {
@@ -56,16 +62,39 @@ export const UsersListScreen = (): JSX.Element => {
             setUsersList(users);
         } catch (err) {
             console.error("Erro ao buscar usuários:", err);
-            setError("Não foi possível carregar a lista de usuários. Verifique suas permissões.");
+            setError("Não foi possível carregar a lista. Verifique a conexão.");
             Alert.alert("Erro de API", "Não foi possível carregar a lista de usuários.");
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []); 
 
-    React.useEffect(() => {
-        fetchUsers();
+    // --- LÓGICA DE BUSCA DO PERFIL LOGADO ---
+    const fetchLoggedUser = useCallback(async () => {
+        try {
+            const userProfile = await UserService.getLoggedUser();
+            setLoggedUser(userProfile);
+        } catch (err) {
+            console.error("Erro ao buscar perfil:", err);
+            // Opcional: Tratar erro de token aqui
+        }
     }, []);
+
+    // 🔑 Efeito 1: Busca o perfil APENAS na montagem inicial
+    useEffect(() => {
+        fetchLoggedUser();
+    }, [fetchLoggedUser]);
+
+
+    // 🔑 Efeito 2: Recarrega a LISTA de usuários sempre que a tela é focada (navegação)
+    useFocusEffect(
+        useCallback(() => {
+            fetchUsers();
+            return () => {};
+        }, [fetchUsers])
+    );
+    
+    // --- HANDLERS DE NAVEGAÇÃO ---
 
     const handleUserPress = (user: UserResponse): void => { 
         router.push({
@@ -77,6 +106,13 @@ export const UsersListScreen = (): JSX.Element => {
     const handleSearchPress = (): void => {
         router.push('/pesquisa'); 
     };
+    
+    const handleAddUser = (): void => {
+        router.push('/addusers'); 
+    };
+
+
+    // --- RENDERIZAÇÃO CONDICIONAL (Loading/Erro) ---
 
     if (isLoading) {
         return (
@@ -97,62 +133,66 @@ export const UsersListScreen = (): JSX.Element => {
             </View>
         );
     }
-        
+    
     return (
         <View style={styles.container}>
-             <Header
-                 showProfile 
-                 userName="Clara Catarina"
-                 userRole="UX/UI Designer"
-                 userImage="https://via.placeholder.com/40"
-                 rightIcon={Search as LucideIcon} 
-                 onRightIconPress={() => console.log('Notificações')}
-             />
-            
-             <TouchableOpacity 
-                 style={styles.searchContainer as StyleProp<ViewStyle>}
-                 onPress={handleSearchPress}
-                 activeOpacity={0.8}
-             >
-                 <Search size={20} color={COLORS.darkGray} style={styles.searchIcon} />
-                 
-                 <TextInput
-                     style={styles.searchInput as StyleProp<TextStyle>}
-                     placeholder="Pesquisar Usuário" 
-                     placeholderTextColor={COLORS.textLight}
-                     value={searchQuery}
-                     editable={false} 
-                 />
-             </TouchableOpacity>
 
-             <FlatList
-                 data={usersList} 
-                 keyExtractor={(item) => item.id.toString()}
-                 renderItem={({ item }) => {
-                     
-                     const cardUser: Users = {
-                         id: item.id,
-                         name: item.nome, 
-                         role: item.role, 
-                         email: item.email,
-                         senha: '', 
-                         imagem: null, 
-                         cargo: item.cargo || '', 
-                         status: item.status || 1
-                     };
-                     
-                     return <UserCard user={cardUser} onPress={() => handleUserPress(item)} />;
-                 }}
-                 contentContainerStyle={styles.listContent as StyleProp<ViewStyle>}
-                 showsVerticalScrollIndicator={false}
-                 ListEmptyComponent={() => (
-                     <Text style={styles.emptyText}>Nenhum usuário encontrado.</Text>
-                 )}
-             />
+            <Header
+                showProfile 
+                // 🔑 Agora, 'loggedUser' está definido e pode ser acessado com segurança
+                userName={loggedUser?.nome || "Carregando..."} 
+                userRole={loggedUser?.cargo || "Visitante"} 
+                
+                rightIcon={Plus as LucideIcon} 
+                onRightIconPress={handleAddUser}
+            />
+            
+            <TouchableOpacity 
+                style={styles.searchContainer} 
+                onPress={handleSearchPress}
+                activeOpacity={0.8}
+            >
+                <Search size={20} color={COLORS.darkGray} style={styles.searchIcon} />
+                
+                <TextInput
+                    style={styles.searchInput} 
+                    placeholder="Pesquisar Usuário (Clique para ir)" 
+                    placeholderTextColor={COLORS.textLight}
+                    value={searchQuery}
+                    editable={false} 
+                />
+            </TouchableOpacity>
+
+            <FlatList
+                data={usersList} 
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => {
+                    
+                    const cardUser: Users = {
+                        id: item.id,
+                        name: item.nome, 
+                        role: item.role, 
+                        email: item.email,
+                        senha: '', 
+                        imagem: null, 
+                        cargo: item.cargo || '', 
+                        status: item.status || 1
+                    };
+                    
+                    return <UserCard user={cardUser} onPress={() => handleUserPress(item)} />;
+                }}
+                contentContainerStyle={styles.listContent as StyleProp<ViewStyle>}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={() => (
+                    <Text style={styles.emptyText}>Nenhum usuário encontrado.</Text>
+                )}
+            />
         </View>
     );
 };
 
+
+// ... (Estilos mantidos e tipados corretamente)
 const styles: StyleProps = StyleSheet.create({
     container: {
         flex: 1,

@@ -1,6 +1,7 @@
 import { JSX } from "react"; 
+import { RegisterScreen } from "../../../src/screens/Registro/RegisterScreen";
 
 export default function RegisterRoute(): JSX.Element | null {
     
-    return null; 
+    return RegisterScreen ? <RegisterScreen /> : null;
 }
