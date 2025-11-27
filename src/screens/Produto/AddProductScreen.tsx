@@ -41,6 +41,20 @@ type ActiveTab = TAB_TYPES.PRODUTO | TAB_TYPES.ESTOQUE;
 
 
 export default function AddProductScreen(): JSX.Element {
+
+    const handleAddVariant = (): void => {
+        
+    const CURRENT_USER_ROLE = getCurrentUserRole();
+    const isUserAdmin = CURRENT_USER_ROLE === 'ADMIN'; // Simulação da Role
+
+    if (isUserAdmin) {
+        // Rota do Admin: Acesso total (pode criar uma nova estrutura)
+        router.push('/admin/variantes/criarvariacao/index'); 
+    } else {
+        // Rota do Operador: Acesso restrito (só pode selecionar uma existente para preencher o valor)
+        router.push('/addvariantes'); 
+    }
+};
     
     const router = useRouter(); 
     
@@ -199,12 +213,15 @@ export default function AddProductScreen(): JSX.Element {
                         </View>
 
                         <View style={styles.variantsSection}>
-                            <View style={styles.variantsHeader}>
-                                <Text style={styles.variantsTitle}>Variantes</Text>
-                                <TouchableOpacity>
-                                    <Text style={styles.addVariantButton}>+</Text>
-                                </TouchableOpacity>
-                            </View>
+                            <Text style={styles.variantsTitle}>Variantes</Text>
+                            
+                            <TouchableOpacity 
+
+                                onPress={handleAddVariant}
+                            >
+                                <Text style={styles.addVariantButton}>+</Text>
+                            </TouchableOpacity>
+                            
                         </View>
                     </>
                 ) : (
