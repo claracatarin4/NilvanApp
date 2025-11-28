@@ -19,7 +19,6 @@ import { CustomInput } from '../../shared/components/CustomInput';
 import { CustomButton } from '../../shared/components/CustomButton';
 import { COLORS, FONT_SIZES, SPACING } from '../../shared/constants';
 import axios, { isAxiosError } from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // 🔑 URL da API: Mantida a configuração para Emulador Android
 const API_BASE_URL = "http://academico3.rj.senac.br/nilvanapp"; 

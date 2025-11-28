@@ -9,11 +9,10 @@ import {
     ViewStyle,
     TextStyle,
     TouchableOpacity, 
-    ActivityIndicator, // Adicionado para exibir carregamento
-    Alert,             // Adicionado para exibir erro ao usuário
+    ActivityIndicator,
+    Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router'; 
-// 🔑 Importar useFocusEffect (necessita de @react-navigation/native)
 import { useFocusEffect } from '@react-navigation/native';
 import { Search } from 'lucide-react-native'; 
 import { Header } from '../../shared/components/Header';
@@ -22,8 +21,8 @@ import { ProductCard } from '../../shared/components/ProductCard';
 import { COLORS } from '../../shared/constants/colors'; 
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
-import ProductService from '../../shared/service/produtos'; 
-import { ProductResponse } from '../../core/types/produtos/index';
+import { ProdutoResponse } from '../../core/types/produtos';
+import ProductService from '../../shared/service/produtos';
 
 
 export enum MAIN_TABS {
@@ -32,48 +31,60 @@ export enum MAIN_TABS {
     CATEGORIAS = 'Categorias',
 }
 
-// 🔑 Ajustando o tipo Product para usar o ProductResponse do serviço
-type Product = ProductResponse; 
+// 1. Defina as propriedades adicionais que o ProductCard espera
+interface ProductCardExpected {
+    code: string;
+    // 🔑 CORREÇÃO AQUI: MUDAR PARA STRING, CONFORME ERRO DO TS(2719)
+    price: string; 
+}
+
+// 2. 🔑 CORREÇÃO: O tipo Product é a soma do que a API retorna e do que o Card exige.
+type Product = ProdutoResponse & ProductCardExpected; 
 
 type MainTab = MAIN_TABS.PRODUTOS | MAIN_TABS.ESTOQUE | MAIN_TABS.CATEGORIAS;
-
-// ⚠️ Removendo o tipo IconComponentType não utilizado para limpar o código
 
 export interface ProductListScreenProps {} 
 
 
 export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => {
-
+    // ... (restante dos estados e handlers)
     const router = useRouter(); 
     
     const [activeMainTab, setActiveMainTab] = useState<MainTab>(MAIN_TABS.PRODUTOS);
     const [searchQuery] = useState<string>('');
     
     // 🔑 NOVOS ESTADOS para a API
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<Product[]>([]); // Usa o novo tipo 'Product'
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    // ⚠️ Removendo mockProducts, pois vamos usar o estado 'products'
-
     const handleProductPress = (product: Product): void => {
+        // Garantindo que 'id' não seja null antes de chamar toString()
+        const productId = product.id !== null ? product.id.toString() : 'new'; 
         router.push({
             pathname: '/addprodutos',
-            params: { productId: product.id.toString() }, 
+            params: { productId }, 
         }); 
     };
 
-    const handleSearchPress = (): void => {
-        router.push('/pesquisa');
-    };
-    
     // 🔑 LÓGICA DE BUSCA DE PRODUTOS
     const fetchProducts = useCallback(async (tab: MainTab) => {
         setIsLoading(true);
         setError(null);
         try {
             const data = await ProductService.listProducts(tab);
-            setProducts(data);
+            
+            // 💡 CORREÇÃO CRÍTICA: Mapear e CONVERTER O TIPO DE DADO para 'code' e 'price' (string)
+            const mappedProducts: Product[] = data.map(item => ({
+                ...item,
+                // Assumindo que 'code' no Card deve usar o 'internalCode' da API
+                code: item.internalCode, 
+                // 🔑 CONVERSÃO: Converte o sellPrice (number) para string para a chave 'price'
+                price: item.sellPrice.toFixed(2), // Formata como string monetária
+            })) as Product[]; 
+            
+            setProducts(mappedProducts);
+            
         } catch (err) {
             console.error(`Erro ao buscar produtos para a aba ${tab}:`, err);
             setError("Falha ao carregar a lista. Tente novamente.");
@@ -84,21 +95,16 @@ export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => 
         }
     }, []); 
 
-    // 🔑 EFEITO DE FOCO: Recarrega a lista toda vez que a tela entra em foco
     useFocusEffect(
         useCallback(() => {
             fetchProducts(activeMainTab);
             return () => {}; // Função de limpeza
-        }, [activeMainTab, fetchProducts]) // Depende da aba ativa e da função de fetch
+        }, [activeMainTab, fetchProducts])
     );
     
-    // 🔑 HANDLER DE MUDANÇA DE ABA: Muda o estado e dispara a busca
     const handleTabChange = (tab: MainTab) => {
         setActiveMainTab(tab);
-        // O useFocusEffect/fetchProducts será disparado pela mudança de 'activeMainTab'
     };
-
-    // --- RENDERIZAÇÃO CONDICIONAL (Loading/Erro/Vazio) ---
 
     const renderContent = () => {
         if (isLoading) {
@@ -132,7 +138,7 @@ export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => 
         return (
             <FlatList
                 data={products}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.id ? item.id.toString() : Math.random().toString()}
                 renderItem={({ item }) => (
                     <ProductCard product={item} onPress={() => handleProductPress(item)} />
                 )}
@@ -151,7 +157,7 @@ export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => 
                 userRole="UX/UI Designer"
                 userImage="https://via.placeholder.com/40"
                 rightIcon={Search} 
-                onRightIconPress={() => console.log('Buscar')} // Mudei para 'Buscar' já que o ícone é Search
+                onRightIconPress={() => console.log('Buscar')}
             />
 
             <View style={styles.tabsContainer}>
@@ -171,22 +177,6 @@ export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => 
                     onPress={() => handleTabChange(MAIN_TABS.CATEGORIAS)}
                 />
             </View>
-
-            <TouchableOpacity 
-                style={styles.searchContainer as StyleProp<ViewStyle>}
-                onPress={handleSearchPress}
-                activeOpacity={0.8}
-            >
-                <Search size={20} color={COLORS.darkGray} style={styles.searchIcon as StyleProp<ViewStyle>} />
-                
-                <TextInput
-                    style={styles.searchInput as StyleProp<TextStyle>}
-                    placeholder="Produto, lote ou Código"
-                    placeholderTextColor={COLORS.textLight}
-                    value={searchQuery}
-                    editable={false} 
-                />
-            </TouchableOpacity>
 
             <View style={styles.listWrapper}>
                  {renderContent()}
@@ -208,27 +198,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.primary,
         
     } as ViewStyle,
-    searchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginHorizontal: SPACING.md,
-        marginVertical: SPACING.md,
-        paddingHorizontal: SPACING.md,
-        paddingVertical: 5, 
-        borderBottomWidth:1,
-        borderBottomColor: COLORS.border, 
-        borderColor: COLORS.border,
-        
-    } as ViewStyle,
-    searchIcon: {
-        marginRight: SPACING.sm,
-    } as ViewStyle,
-    searchInput: {
-        flex: 1,
-        paddingVertical: SPACING.md,
-        fontSize: FONT_SIZES.medium,
-        color: COLORS.text,
-    } as TextStyle,
+    // ... (restante dos estilos)
     listWrapper: {
         flex: 1,
     } as ViewStyle,
@@ -236,7 +206,6 @@ const styles = StyleSheet.create({
         paddingBottom: SPACING.md,
         paddingHorizontal: SPACING.md,
     } as ViewStyle,
-    // 🔑 NOVOS ESTILOS
     centerContent: {
         flex: 1,
         justifyContent: 'center',

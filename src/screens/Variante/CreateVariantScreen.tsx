@@ -33,12 +33,12 @@ export default function CreateVariantScreen(): JSX.Element {
         if (isAdmin) {
             console.log('Admin: Carregando..');
             // Navega para a tela de cadastro/edição de estrutura (AdminCreateVariantScreen)
-            router.push('/admin/variantes/criarvariacao/index'); 
+            router.push('/admin/variantes/criarvariacao'); 
         } else {
             // Operador não tem permissão para criar novas variações
             console.log('Carregando...');
             // Navega para a tela de cadastro/edição de estrutura (AdminCreateVariantScreen)
-            router.push('/admin/variantes/criarvariacao/index'); 
+            router.push('/addvariantes'); 
         }
     };
 

@@ -1,5 +1,7 @@
 import api from "../../../core/api";
 import { Product, ProdutoResponse } from "../../../core/types/produtos";
+import { MAIN_TABS } from "../../../screens/Produto/ProductListScreen";
+
 
 const ProductService = {
     
@@ -8,7 +10,7 @@ const ProductService = {
      * @param request Dados do usuário a ser criado.
      * @returns O objeto UserResponse retornado pelo servidor.
      */
-    async createUser(request: Product): Promise<ProdutoResponse> { // Adicionado retorno Promise<UserResponse>
+    async createProduct(request: Product): Promise<ProdutoResponse> { // Adicionado retorno Promise<UserResponse>
         try {
             const response = await api.post<ProdutoResponse>("/api/produto/criar", request);
             return response.data; // Retorna o usuário criado
@@ -24,7 +26,7 @@ const ProductService = {
      * Lista todos os usuários cadastrados.
      * @returns Array de UserResponse.
      */
-    async listUsers(): Promise<ProdutoResponse[]> {
+    async listProducts(tab: MAIN_TABS): Promise<ProdutoResponse[]> {
         try {
             const response = await api.get<ProdutoResponse[]>("/api/produto/listar");
             
@@ -40,7 +42,7 @@ const ProductService = {
      * Apaga um produto pelo ID.
      * @param produtoId ID do produto a ser apagado.
      */
-    async deleteUser(produtoId: number): Promise<void> {
+    async deleteProduct(produtoId: number): Promise<void> {
         try {
             await api.delete(`/api/produto/apagar/${produtoId}`);
             
@@ -49,6 +51,8 @@ const ProductService = {
             throw error;
         }
     },
+
+    
 
     /**
      * Busca a contagem total de produtos cadastrados.

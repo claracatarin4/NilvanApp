@@ -13,11 +13,9 @@ export default function SearchProductScreen() {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
 
-    const recentProducts: Product[] = [
-        // ... Seus produtos aqui
-        { id: '1', name: 'Bolsa Térmica Cooler - 14,5 Litros', price: 160.00, imageUrl: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg', category: 'Bolsas', sellPrice: 160.0, costPrice: 80.0, internalCode: 'BTC1', barcode: '1234567890123', description: '+28 (VERMELHO, AZUL)', variants: [] },
-        { id: '2', name: 'Bolsa Térmica Cooler - 14,5 Litros', price: 160.00, imageUrl: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg', category: 'Bolsas', sellPrice: 160.0, costPrice: 80.0, internalCode: 'BTC2', barcode: '1234567890124', description: '+28 (VERMELHO, AZUL)', variants: [] },
-    ];
+    // const recentProducts: Product[] = [
+       
+    // ];
 
     const handleSearch = () => {
         console.log('Search:', searchQuery);
@@ -84,7 +82,7 @@ export default function SearchProductScreen() {
                 </View>
             </View>
 
-            <ScrollView style={styles.content}>
+            {/* <ScrollView style={styles.content}>
                 <Text style={styles.sectionTitle}>Produtos Recentes:</Text>
                 {recentProducts.map((product) => (
                     <ProductItem 
@@ -93,7 +91,7 @@ export default function SearchProductScreen() {
                         onPress={() => handleProductPress(product)}
                     />
                 ))}
-            </ScrollView>
+            </ScrollView> */}
         </View>
     );
 }
