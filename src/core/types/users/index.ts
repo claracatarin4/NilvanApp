@@ -12,6 +12,7 @@ export interface Users {
 }
 
 export interface UserResponse{
+  imagem: string;
   id:number,
   nome:string,
   cargo:string,

@@ -24,23 +24,4 @@ export default function RootLayout(): JSX.Element {
     </Stack>
   );
   
-
-
-  // const { user } = useAuth();
-
-  // if (!user) return null; // evita erro enquanto carrega
-
-  // const allowedTabs = roleTabs[user.role];
-
-  // return (
-  //   <Tabs screenOptions={{ headerShown: false }}>
-  //     {allowedTabs.map((tab) => (
-  //       <Tabs.Screen
-  //         key={tab.name}
-  //         name={tab.name.toLowerCase()} // deve refletir o nome do arquivo
-  //         options={{ title: tab.name }}
-  //       />
-  //     ))}
-  //   </Tabs>
-  // );
 }

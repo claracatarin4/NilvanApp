@@ -3,16 +3,21 @@ export interface VariantOptionDTO {
     valor: string; // Ex: "Pequeno", "Azul", "Algodão"
 }
 
-/**
- * 1. Interface Base da Variação (Estrutura definida pelo Admin, Ex: "Cor").
- * É o que a API retorna ao listar as variações.
- */
+
 export interface VariantDTO {
+    status: number;
     id: string;
     nome: string; // Ex: "Cor", "Tamanho"
     descricao: string; 
     ativo: boolean; // Se a variação está ativa
     options?: VariantOptionDTO[]; // Opcional, pois nem sempre é necessário carregar as opções
+}
+
+// O objeto enviado para CREATE e usado como base para UPDATE
+export interface CreateVariantDTO {
+    nome: string;
+    descricao?: string;
+    status: number;
 }
 
 /**

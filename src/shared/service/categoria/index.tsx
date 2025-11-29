@@ -1,41 +1,34 @@
-import axios from 'axios';
-import StorageService from '../storage';
 
-// 💡 INTERFACES DE EXEMPLO (Defina estas interfaces no seu /core/types, ex: /core/types/categoria.ts)
+import api from "../../../core/api";
+
 export interface CategoriaDTO {
     id: string;
-    nome: string; // Ex: "Eletrônicos", "Vestuário", "Limpeza"
-    descricao: string;
-    status: number; // 1 para ativa, 0 para inativa
+    nome: string; 
+    descricao: string; // <-- NOVO: Adicionado para carregar o valor
+    produtosRelacionados: number; 
+    status: 'ATIVA' | 'INATIVA';
 }
 
 export interface CategoriaRequestDTO {
+    id: string | null; // Adicionado para conformidade com a interface original (e pode ser usado na API)
     nome: string;
-    descricao: string;
+    descricao: string; // <-- NOVO: Adicionado para enviar o valor
+    totalStock: number; // Adicionado para conformidade com a interface original
+    imageUrl?: string; // Adicionado para conformidade com a interface original
+    status: 1 | 0; // 1 para ATIVA, 0 para INATIVA (Mapeamento do boolean)
 }
 
-// 🔑 URL base da sua API
-const API_BASE_URL = "http://academico3.rj.senac.br/nilvanapp";
-
-const api = axios.create({
-    baseURL: API_BASE_URL,
-    headers: { Authorization: `Bearer ${StorageService.returnToken()}` } 
-});
-
-
 const CategoriaService = {
-
-    // --- CRUD DE CATEGORIAS ---
-
+    
     /**
      * 1. CREATE: Cria uma nova categoria.
      * Endpoint: POST /api/categoria/criar
-     * @param data Dados da nova categoria (nome, descricao).
-     * @returns A Categoria criada.
      */
     async createCategoria(data: CategoriaRequestDTO): Promise<CategoriaDTO> {
         try {
-            const response = await api.post<CategoriaDTO>("/api/categoria/criar", data);
+            // Remove 'id' e 'totalStock' se for uma API RESTful de criação padrão
+            const { id, totalStock, ...requestPayload } = data; 
+            const response = await api.post<CategoriaDTO>("/api/categoria/criar", requestPayload);
             return response.data;
         } catch (error) {
             console.error("CategoriaService: erro ao criar categoria", error);
@@ -44,9 +37,8 @@ const CategoriaService = {
     },
 
     /**
-     * 2. READ: Lista todas as categorias.
+     * 2. READ (Lista): Lista todas as categorias.
      * Endpoint: GET /api/categoria/listar
-     * @returns Array de CategoriaDTO.
      */
     async listCategorias(): Promise<CategoriaDTO[]> {
         try {
@@ -59,43 +51,38 @@ const CategoriaService = {
     },
 
     /**
-     * 3. READ (Por ID): Busca uma Categoria específica.
-     * Endpoint: GET /api/categoria/listar/{id}
-     * @param id O ID da categoria.
-     * @returns A CategoriaDTO correspondente.
+     * 3. READ (Por ID): Busca uma categoria específica.
+     * Endpoint: GET /api/categoria/buscar/{id}
      */
     async getCategoriaById(id: string): Promise<CategoriaDTO> {
         try {
-            const response = await api.get<CategoriaDTO>(`/api/categoria/listar/${id}`);
+            const response = await api.get<CategoriaDTO>(`/api/categoria/buscar/${id}`);
             return response.data;
         } catch (error) {
             console.error(`CategoriaService: erro ao buscar categoria ID ${id}`, error);
             throw error;
         }
     },
-    
+
     /**
-     * 4. UPDATE: Atualiza uma Categoria existente.
+     * 4. UPDATE: Atualiza uma categoria existente.
      * Endpoint: PUT /api/categoria/atualizar/{id}
-     * @param id O ID da categoria a ser atualizada.
-     * @param data Os dados a serem atualizados (nome, descricao, etc.).
-     * @returns A Categoria atualizada.
      */
     async updateCategoria(id: string, data: CategoriaRequestDTO): Promise<CategoriaDTO> {
         try {
-            const response = await api.put<CategoriaDTO>(`/api/categoria/atualizar/${id}`, data);
+            // Remove 'id' e 'totalStock' se for uma API RESTful de atualização padrão
+            const { id: requestID, totalStock, ...requestPayload } = data; 
+            const response = await api.put<CategoriaDTO>(`/api/categoria/atualizar/${id}`, requestPayload);
             return response.data;
         } catch (error) {
             console.error(`CategoriaService: erro ao atualizar categoria ID ${id}`, error);
             throw error;
         }
     },
-
+    
     /**
-     * 5. DELETE: Apaga uma Categoria pelo ID.
+     * 5. DELETE: Apaga uma categoria pelo ID.
      * Endpoint: DELETE /api/categoria/apagar/{id}
-     * @param id O ID da categoria a ser apagada.
-     * @returns Promise vazia.
      */
     async deleteCategoria(id: string): Promise<void> {
         try {
