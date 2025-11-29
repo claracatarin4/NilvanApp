@@ -3,23 +3,44 @@ import React, { JSX } from "react";
 
 export default function RootLayout(): JSX.Element {
   return (
-    <Stack 
+    <Stack
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="auth/Login/index" /> 
-      
-      <Stack.Screen name="(tabs)" /> 
+      {/* Tela de login */}
+      <Stack.Screen name="auth/Login/index" />
 
-      <Stack.Screen name="auth/Register/index"/>
-      
-      <Stack.Screen name="addprodutos/index" /> 
+      {/* Layout de tabs DINÂMICO (permissionamento está em app/(tabs)/_layout.tsx) */}
+      <Stack.Screen name="(tabs)" />
 
-      <Stack.Screen name="pesquisa/index"/>
-      
-      <Stack.Screen name="verproduto/index"/> 
-      
+      {/* Tela de cadastro */}
+      <Stack.Screen name="auth/Register/index" />
+
+      {/* Telas fora das tabs */}
+      <Stack.Screen name="addprodutos/index" />
+      <Stack.Screen name="pesquisa/index" />
+      <Stack.Screen name="verproduto/index" />
     </Stack>
   );
+  
+
+
+  // const { user } = useAuth();
+
+  // if (!user) return null; // evita erro enquanto carrega
+
+  // const allowedTabs = roleTabs[user.role];
+
+  // return (
+  //   <Tabs screenOptions={{ headerShown: false }}>
+  //     {allowedTabs.map((tab) => (
+  //       <Tabs.Screen
+  //         key={tab.name}
+  //         name={tab.name.toLowerCase()} // deve refletir o nome do arquivo
+  //         options={{ title: tab.name }}
+  //       />
+  //     ))}
+  //   </Tabs>
+  // );
 }

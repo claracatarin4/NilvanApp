@@ -129,6 +129,7 @@ export const LoginScreen = (): JSX.Element => {
                 </View>
 
                 <View style={styles.formContainer}>
+
                     {/* E-mail Input */}
                     <CustomInput
                         icon={User as IconComponentType}
@@ -181,8 +182,6 @@ export const LoginScreen = (): JSX.Element => {
     );
 };
 
-
-// 🎨 Estilos Adicionais
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: COLORS.white, } as ViewStyle,
     scrollContent: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: SPACING.lg, } as ViewStyle,

@@ -90,16 +90,6 @@ export default function TabsLayout() {
           ),
         }}
       />
-      <Tabs.Screen 
-        name="usuarios/index" 
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <View style={focused ? ActivePillBackground : InactivePill}>
-                <Users color={color} size={30} />
-            </View>
-          ),
-        }}
-      />
       
     </Tabs>
       );

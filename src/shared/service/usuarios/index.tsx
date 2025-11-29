@@ -58,6 +58,23 @@ const UserService = {
         }
     },
 
+
+     /**
+     * Lista todos os usuários cadastrados por id.
+     * @param userId ID do usuário a ser apagado.
+     */
+    async listUsersById(userId: number): Promise<UserResponse[]> {
+        try {
+            const response = await api.get<UserResponse[]>(`/api/usuario/listarPorIdUsuario/${userId}`);
+            
+            return response.data;
+
+        } catch(error) {
+            console.error("UserService: erro ao listar usuário por Id", error);
+            throw error;
+        }
+    },
+
     /**
      * Apaga um usuário pelo ID.
      * @param userId ID do usuário a ser apagado.
@@ -87,6 +104,8 @@ const UserService = {
             throw error;
         }
     },
+
+
 
     /**
      * Realiza o logout, limpando os dados de autenticação.
