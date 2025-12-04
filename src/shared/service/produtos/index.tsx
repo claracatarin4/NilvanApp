@@ -1,6 +1,5 @@
 import api from "../../../core/api";
-import { Product, ProdutoResponse } from "../../../core/types/produtos";
-import { MAIN_TABS } from "../../../screens/Produto/ProductListScreen";
+import {ProdutoRequest, ProdutoResponse } from "../../../core/types/produtos";
 
 
 const ProductService = {
@@ -10,14 +9,13 @@ const ProductService = {
      * @param request Dados do usuário a ser criado.
      * @returns O objeto UserResponse retornado pelo servidor.
      */
-    async createProduct(request: Product): Promise<ProdutoResponse> { // Adicionado retorno Promise<UserResponse>
+    async createProduct(request: ProdutoRequest): Promise<ProdutoResponse> { // Adicionado retorno Promise<UserResponse>
         try {
             const response = await api.post<ProdutoResponse>("/api/produto/criar", request);
-            return response.data; // Retorna o usuário criado
-            
+            return response.data; 
+
         } catch(error) {
             console.error("ProductService: erro ao criar produto", error);
-            // 🔑 Melhoria: Lança o erro para que a tela possa capturá-lo
             throw error; 
         }
     },
@@ -26,7 +24,7 @@ const ProductService = {
      * Lista todos os usuários cadastrados.
      * @returns Array de UserResponse.
      */
-    async listProducts(tab: MAIN_TABS): Promise<ProdutoResponse[]> {
+    async listProducts(): Promise<ProdutoResponse[]> {
         try {
             const response = await api.get<ProdutoResponse[]>("/api/produto/listar");
             

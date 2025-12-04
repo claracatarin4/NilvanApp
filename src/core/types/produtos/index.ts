@@ -1,27 +1,21 @@
-export interface ProductVariant {
-  [key: string]: any; 
+import { CategoryResponse } from "../../../screens/Produto/ProductListScreen"
+
+export interface ProdutoResponse { 
+  categoriaResponse: CategoryResponse
+  codigoBarras: string
+  codigoInterno: string
+  descricao: string
+  id: number
+  imagem: string
+  nome: string
 }
 
-export type Product = ProdutoResponse & ProductCardRequiredProps;
-
-
- export interface ProdutoResponse { 
-  id: string | null;
-  name: string;
-  category: string;
-  sellPrice: number;
-  costPrice: number;    
-  internalCode: string;
-  barcode: string;
-  description: string;
-  imageUrl: string | null; 
-  variants: ProductVariant[]; 
-  
+export interface ProdutoRequest { 
+  imagem: string
+  nome: string 
+  categoriaResponse: CategoryResponse
+  codigoBarras: string
+  codigoInterno: string
+  descricao: string
 }
-
-interface ProductCardRequiredProps {
-    code: string;
-    price: number;
-}
-
 

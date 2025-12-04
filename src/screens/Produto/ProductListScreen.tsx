@@ -52,14 +52,14 @@ type MainTab = MAIN_TABS.PRODUTOS | MAIN_TABS.ESTOQUE | MAIN_TABS.CATEGORIAS;
 export interface ProductListScreenProps {} 
 
 
-export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => {
+export const ProductListScreen = () => {
     
     const router = useRouter(); 
     
     const [activeMainTab, setActiveMainTab] = useState<MainTab>(MAIN_TABS.ESTOQUE); 
     const [searchQuery, setSearchQuery] = useState<string>(''); 
     
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProdutoResponse[]>([]);
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [stockSummary, setStockSummary] = useState<StockSummaryResponse | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -85,27 +85,25 @@ export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => 
         setStockSummary(null);
 
         try {
-            // 🔑 FORÇA O TIPO PARA 'unknown' antes de fazer o cast condicionalmente
-            const data = await ProductService.listProducts(tab);
+            const data = await ProductService.listProducts();
+            console.log("claradata",data)
             
             const mapDataToProducts = (items: ProdutoResponse[]): Product[] => items.map(item => ({
-                ...item,
-                code: item.internalCode, 
-                price: item.sellPrice.toFixed(2).replace('.', ','), 
+              
             })) as Product[]; 
 
-
             if (tab === MAIN_TABS.ESTOQUE) {
-                // 🔑 CORREÇÃO 1: Cast para o tipo StockApiData que possui 'summary' e 'list'
+
                 const stockData = data as unknown as StockApiData; 
                 setStockSummary(stockData.summary);
                 setProducts(mapDataToProducts(stockData.list));
+
             } else if (tab === MAIN_TABS.CATEGORIAS) {
-                // 🔑 CORREÇÃO 2: Cast para ListApiData (Categoria)
+
                 setCategories(data as unknown as CategoryResponse[]);
+
             } else {
-                // 🔑 CORREÇÃO 2: Cast para ListApiData (Produto)
-                setProducts(mapDataToProducts(data as unknown as ProdutoResponse[]));
+                setProducts(data);
             }
             
         } catch (err) {
@@ -147,24 +145,22 @@ export const ProductListScreen: FC<ProductListScreenProps> = (): JSX.Element => 
         }
         
         // Filtra Produtos e Estoque (Produto possui 'name' e 'code')
-        return products.filter(product => {
+        // return products.filter(product => {
+          
+        //     const variantsString = product.variantes;
             
-            // 🔑 CORREÇÃO 3: Assumindo que product.variantes é um ARRAY de ProductVariant
-            // Se 'variantes' na sua ProdutoResponse é uma string, APENAS use: 
-            // const variantsString = product.variantes;
-            
-            // Se variantes é um array de objetos (e.g. [{ name: 'G' }, { name: 'Azul' }])
-            // Usamos map+join para criar uma string pesquisável
-            const variantsString = Array.isArray(product.variants) 
-                ? product.variants.map((v: ProductVariant) => v.name).join(' ').toLowerCase()
-                : String(product.variants).toLowerCase(); // Fallback se for string, mas o tipo está incorreto
+        //     Se variantes é um array de objetos (e.g. [{ name: 'G' }, { name: 'Azul' }])
+        //     Usamos map+join para criar uma string pesquisável
+        //     const variantsString = Array.isArray(product.variants) 
+        //         ? product.variants.map((v: ProductVariant) => v.name).join(' ').toLowerCase()
+        //         : String(product.variants).toLowerCase(); // Fallback se for string, mas o tipo está incorreto
 
-            return (
-                product.name.toLowerCase().includes(query) || // Nome do produto
-                product.code.toLowerCase().includes(query) || // Código interno
-                variantsString.includes(query)                // Variantes
-            );
-        });
+        //     return (
+        //         product.name.toLowerCase().includes(query) || // Nome do produto
+        //         product.code.toLowerCase().includes(query) || // Código interno
+        //         variantsString.includes(query)                // Variantes
+        //     );
+        // });
 
     }, [searchQuery, products, categories, activeMainTab]);
 

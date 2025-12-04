@@ -42,8 +42,8 @@ export default function TabsLayout() {
         tabBarStyle: {
             position: 'absolute', 
             backgroundColor: '#EEEEEE', 
-            width: 200, 
-            marginHorizontal: "24%",
+            width: 140, 
+            marginHorizontal: "32%",
             right: undefined, 
             alignItems:'center',
             paddingRight:16,

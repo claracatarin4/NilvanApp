@@ -23,9 +23,9 @@ import { CustomButton } from '../../shared/components/CustomButton';
 import { COLORS } from '../../shared/constants/colors'; 
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
+import { ProdutoRequest } from '../../core/types/produtos';
 
 // Simulação do Serviço de Produto e DTOs
-import ProdutoService, { ProdutoRequestDTO, ProdutoResponse, ProductVariant } from '../../shared/service/produtos';
 
 
 // --- TIPAGENS ---
@@ -109,7 +109,7 @@ export default function AddProductScreen(): JSX.Element {
         }
     };
 
-    const validateAndMapData = (): ProdutoRequestDTO | null => {
+    const validateAndMapData = (): ProdutoRequest | null => {
         // Validação básica
         if (!productData.name.trim() || !productData.category.trim() || !productData.sellingPrice.trim()) {
             Alert.alert('Erro', 'Nome, Categoria e Preço de Venda são obrigatórios.');
@@ -124,10 +124,9 @@ export default function AddProductScreen(): JSX.Element {
              return null;
         }
 
-        // Mapeamento para o DTO de Requisição
         return {
-            name: productData.name.trim(),
-            category: productData.category.trim(),
+            nome: productData.name.trim(),
+            categoriaResponse: productData.category.trim(),
             sellPrice: sellPrice,
             costPrice: costPrice,
             internalCode: productData.internalCode.trim(),

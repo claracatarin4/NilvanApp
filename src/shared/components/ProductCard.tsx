@@ -12,6 +12,7 @@ import {
 import { COLORS } from '../../shared/constants/colors'; 
 import { SPACING } from '../../shared/constants/spacing'; 
 import { FONT_SIZES } from '../../shared/constants/fonts';
+import { ProdutoResponse } from '../../core/types/produtos';
 
 interface Product {
 
@@ -23,7 +24,7 @@ interface Product {
 }
 
 interface ProductCardProps {
-    product: Product;
+    product: ProdutoResponse;
     onPress: () => void;
 }
 
@@ -35,18 +36,17 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onPress }) => {
             activeOpacity={0.7}
         >
             <Image
-                source={{ uri: product.imageUrl || 'https://via.placeholder.com/60' }}
+                source={{ uri: product.imagem || 'https://via.placeholder.com/60' }}
                 style={styles.image}
             />
             <View style={styles.info}>
                 <Text style={styles.name} numberOfLines={1}>
-                    {product.name}
+                    {product.nome}
                 </Text>
                 <Text style={styles.code} numberOfLines={1}>
-                    {product.code}
+                    {product.codigoInterno}
                 </Text>
             </View>
-            <Text style={styles.price}>R$ {product.price}</Text>
         </TouchableOpacity>
     );
 };
@@ -57,14 +57,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: COLORS.white,
         padding: SPACING.md,
-        marginHorizontal: SPACING.md,
-        marginBottom: SPACING.sm,
-        borderRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-        elevation: 2,
+        borderBottomWidth:1,
+        borderBottomColor:COLORS.border
+       
     } as ViewStyle,
     image: {
         width: 60,

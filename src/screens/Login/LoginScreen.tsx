@@ -75,10 +75,13 @@ export const LoginScreen = (): JSX.Element => {
             const { token, userId } = response.data;
 
             console.log("Login realizado! Token:", token, "ID:", userId);
-
+            
+             
             // SALVAR NO CELULAR
             await AsyncStorage.setItem('userToken', token);
             await AsyncStorage.setItem('userId', String(userId));
+
+            // const responseUser = await axios.get(`${API_BASE_URL}/api/usuario`)
 
             // NAVEGAÇÃO PARA TELA HOME
             router.replace("/(tabs)/home"); 

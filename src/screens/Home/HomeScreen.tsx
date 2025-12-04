@@ -15,39 +15,37 @@ import { CustomButton } from '../../shared/components/CustomButton';
 import { COLORS } from '../../shared/constants/colors';
 import { SPACING } from '../../shared/constants/spacing';
 import { FONT_SIZES } from '../../shared/constants/fonts';
+import api from '../../core/api';
 
 
 type TabId = 'home' | 'products';
 
 export interface HomeScreenProps {}
 
-interface StatItem {
-    label: string;
-    value: string;
+export interface DashboardResponse {
+  numeroProdutos: number | null
+  totalProdutosEstoque: number | null
+  valorEstoque: number | null
 }
-
-// O tipo IconComponentType não é mais necessário, pois você usa LucideIcon diretamente.
-// type IconComponentType = FC<{ 
-//     color: string; 
-//     size: number;
-//     style?: StyleProp<ViewStyle>; 
-// }>;
 
 export const HomeScreen: FC<HomeScreenProps> = (): JSX.Element => {
 
+    const [data,setData] = useState({numeroProdutos:{label:"Total Produtos", value: 0}, valorEstoque:{label:"Valor Estoque", value: 0} , totalProdutosEstoque:{label:"Total Produtos no Estoque", value: 0}})
+    
     const router = useRouter();
 
     const [activeTab, setActiveTab] = useState<TabId>('home');
 
+    api.get<DashboardResponse>("/api/dashboard/admin").then((res) => {
+     if(res?.data){
+        setData({numeroProdutos:{label:"Total Produtos", value: res.data.numeroProdutos}, valorEstoque:{label:"Valor Estoque", value: res.data.valorEstoque} , totalProdutosEstoque:{label:"Total Produtos no Estoque", value: res.data.totalProdutosEstoque}});
+        }
+     })
+
+    
     const handleAddProduct = (): void => {
         router.push('/addprodutos');
     };
-
-    const stats: StatItem[] = [
-        { label: 'Produtos', value: '4.000.000' },
-        { label: 'Vendas', value: '50.000' },
-        { label: 'Lucro', value: 'R$ 1000000' },
-    ];
 
     return (
         <View style={styles.container}>
@@ -61,10 +59,10 @@ export const HomeScreen: FC<HomeScreenProps> = (): JSX.Element => {
             />
 
             <ScrollView style={styles.content as StyleProp<ViewStyle>} showsVerticalScrollIndicator={false}>
-                {stats.map((stat, index) => (
+                {Object.keys(data).map((key, index) => (
                     <View key={index} style={styles.statCard}>
-                        <Text style={styles.statLabel}>{stat.label}</Text>
-                        <Text style={styles.statValue}>{stat.value}</Text>
+                        <Text style={styles.statLabel}>{data[key].label}</Text>
+                        <Text style={styles.statValue}>{data[key].value}</Text>
                     </View>
                 ))}
 
